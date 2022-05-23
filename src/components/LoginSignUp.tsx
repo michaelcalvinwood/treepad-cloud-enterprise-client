@@ -68,7 +68,11 @@ const LoginSignUp: React.FC = () => {
 
     return (
         <div className="login">
-            <div className='login__container'>
+            <div>
+                <h2 className='login__title'>
+                    { mode === 'login' ? 'Login' : 'Register'}
+                </h2>
+                <div className='login__container'>
                 <IonItem>
                     <IonLabel position="floating">User Name</IonLabel>
                     <IonInput type="text" ref={userRef}/>
@@ -90,21 +94,26 @@ const LoginSignUp: React.FC = () => {
                 { mode === 'register' &&
                     <PasswordStrengthMeter password={password}/> }
                 <div className='login__button-container'>
-                    { mode === 'register' &&
-                        <IonButton 
-                        className='login__button'
-                        onClick={handleSubmit}>Submit</IonButton>
-                    }
+                    
                     <IonButton 
+                    className='login__button'
+                    onClick={handleSubmit}>Submit</IonButton>
+                
+                    { mode === 'login' ? 
+                        <IonButton 
+                        fill='outline'
+                        className='login__button'
+                        onClick={handleRegister}>Register</IonButton> :
+
+                        <IonButton 
+                        fill='outline'
                         className='login__button'
                         onClick={handleLogin}>Login</IonButton>
-                    { mode === 'login' &&
-                        <IonButton 
-                        className='login__button'
-                        onClick={handleRegister}>Register</IonButton>
                     }   
                 </div>
             </div>
+            </div>
+           
             <IonToast 
                 color="secondary"
                 position='middle'

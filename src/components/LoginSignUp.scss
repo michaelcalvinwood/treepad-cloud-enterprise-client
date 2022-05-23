@@ -5,6 +5,16 @@
     justify-content: center;
     align-items: center;
 
+    &__title {
+        color: var(--ion-color-primary);
+        text-align: center;
+        font-weight: bold;
+    }
+    &__container {
+        padding: 1rem;
+        border: 2px solid var(--ion-color-primary);
+        border-radius: 4px;
+    }
     &__button-container {
         margin: 1rem 0 0 0;
         width: 100%;
