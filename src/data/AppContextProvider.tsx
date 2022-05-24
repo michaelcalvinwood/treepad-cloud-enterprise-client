@@ -9,7 +9,6 @@ const AppContextProvider: React.FC = props => {
     const [windowDimensions, setWindowDimensions] = useState<WindowDimensions>({height: window.innerHeight, width: window.innerWidth});
 
     const windowResize = () => {
-        console.log('windowSize', window.innerWidth, window.innerHeight)
         setWindowDimensions(prev => {
             prev = { height: window.innerHeight, width: window.innerWidth};
             return {...prev};

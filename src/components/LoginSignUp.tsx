@@ -8,6 +8,8 @@ import zxcvbn from 'zxcvbn';
 import treepadIcon from '../assets/icons/treepadcloud-icon.svg';
 import AppContext from '../data/AppContext';
 
+// TODO: Add confirmation password to registration and only send if the two passwords match
+
 const LoginSignUp: React.FC = () => {
     const [mode, setMode] = useState<string>('login');
     const [toast, setToast] = useState<string>('');
@@ -38,7 +40,7 @@ const LoginSignUp: React.FC = () => {
     const handleSubmit = () => {
         const user = userRef.current!.value;
 
-        if (!user) {
+        if (mode === 'register' && !user) {
             setToast('Please enter a user name.');
             return;
         }
@@ -53,7 +55,8 @@ const LoginSignUp: React.FC = () => {
         const isValidEmail = EmailValidator.validate(email.toString());
 
         if (!isValidEmail) {
-            setToast('Please enter a valid email address.')
+            setToast('Please enter a valid email address.');
+            return;
         }
 
         const passwordVal = passRef.current!.value;
@@ -67,10 +70,42 @@ const LoginSignUp: React.FC = () => {
 
         if (testPassword.score < 4) {
             setToast('Please use a strong password');
+            return;
+        }
+
+        if (mode === 'register') {
+            const request = {
+                url: `${process.env.REACT_APP_BASE_URL}/authentication/register`,
+                method: 'post',
+                data: {
+                    user,
+                    email,
+                    password
+                }
+            }
+            axios(request)
+            .then(res => {
+                setToast(res.data);
+                return;
+
+            })
+            .catch(err => {
+                console.log(err.response.data);
+                if (!err.response!.data) {
+                    setToast(err.message!);
+                    return;
+                } else {
+                    setToast(err.response.data);
+                    return;
+                }
+            })
+
+
+            return;
         }
     }
 
-    console.log('login dimensions', appCtx.windowDimensions.height)
+    console.log('base url:', process.env.REACT_APP_BASE_URL);
 
     return (
         <div className="login">
