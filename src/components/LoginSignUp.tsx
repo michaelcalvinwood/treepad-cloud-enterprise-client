@@ -1,15 +1,19 @@
 import './LoginSignUp.scss';
 import { IonButton, IonInput, IonItem, IonLabel, IonToast } from '@ionic/react';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useContext } from 'react';
 import axios from 'axios'
 import * as EmailValidator from 'email-validator';
 import PasswordStrengthMeter from './PasswordStrengthMeter';
 import zxcvbn from 'zxcvbn';
+import treepadIcon from '../assets/icons/treepadcloud-icon.svg';
+import AppContext from '../data/AppContext';
 
 const LoginSignUp: React.FC = () => {
     const [mode, setMode] = useState<string>('login');
     const [toast, setToast] = useState<string>('');
     const [password, setPassword] = useState<string>('');
+
+    const appCtx = useContext(AppContext);
     
     const userRef = useRef<HTMLIonInputElement>(null);
     const emailRef = useRef<HTMLIonInputElement>(null);
@@ -66,55 +70,61 @@ const LoginSignUp: React.FC = () => {
         }
     }
 
+    console.log('login dimensions', appCtx.windowDimensions.height)
+
     return (
         <div className="login">
-            <div className='login__center-container'>
-                <div className='login__center-box'>
-                    <h2 className='login__title'>
-                        { mode === 'login' ? 'Login' : 'Register'}
-                    </h2>
-                    <div className='login__container'>
+            
+            <div className='login__center-box'>
+                <div className='login__intro'>
+                    <img className='login__logo' src={treepadIcon} />
+                    <h1 className='login__product-name'>TreePad Cloud</h1>
+                </div>
+                <h2 className='login__title'>
+                    { mode === 'login' ? 'Login' : 'Register'}
+                </h2>
+                <div className='login__container'>
+                    <IonItem>
+                        <IonLabel position="floating">User Name</IonLabel>
+                        <IonInput type="text" ref={userRef}/>
+                    </IonItem>
+                    { mode === 'register' && 
                         <IonItem>
-                            <IonLabel position="floating">User Name</IonLabel>
-                            <IonInput type="text" ref={userRef}/>
+                            <IonLabel position="floating">Email</IonLabel>
+                            <IonInput type="email" ref={emailRef}/>
                         </IonItem>
-                        { mode === 'register' && 
-                            <IonItem>
-                                <IonLabel position="floating">Email</IonLabel>
-                                <IonInput type="email" ref={emailRef}/>
-                            </IonItem>
-                        }
-                        <IonItem>
-                            <IonLabel position="floating">Password</IonLabel>
-                            <IonInput 
-                                type="password" 
-                                ref={passRef} 
-                                value={password} 
-                                onIonChange={handlePassword}/>
-                        </IonItem>
-                        { mode === 'register' &&
-                            <PasswordStrengthMeter password={password}/> }
-                        <div className='login__button-container'>
-                            
-                            <IonButton 
-                            className='login__button'
-                            onClick={handleSubmit}>Submit</IonButton>
+                    }
+                    <IonItem>
+                        <IonLabel position="floating">Password</IonLabel>
+                        <IonInput 
+                            type="password" 
+                            ref={passRef} 
+                            value={password} 
+                            onIonChange={handlePassword}/>
+                    </IonItem>
+                    { mode === 'register' &&
+                        <PasswordStrengthMeter password={password}/> }
+                    <div className='login__button-container'>
                         
-                            { mode === 'login' ? 
-                                <IonButton 
-                                fill='outline'
-                                className='login__button'
-                                onClick={handleRegister}>Register</IonButton> :
+                        <IonButton 
+                        className='login__button login__submit'
+                        onClick={handleSubmit}>Submit</IonButton>
+                    
+                        { mode === 'login' ? 
+                            <IonButton 
+                            fill='outline'
+                            className='login__button'
+                            onClick={handleRegister}>Register</IonButton> :
 
-                                <IonButton 
-                                fill='outline'
-                                className='login__button'
-                                onClick={handleLogin}>Login</IonButton>
-                            }   
-                        </div>
+                            <IonButton 
+                            fill='outline'
+                            className='login__button'
+                            onClick={handleLogin}>Login</IonButton>
+                        }   
                     </div>
                 </div>
-        </div>   
+            </div>
+        
             <IonToast 
                 color="secondary"
                 position='middle'
@@ -122,7 +132,7 @@ const LoginSignUp: React.FC = () => {
                 isOpen={!!toast}
                 duration={2500}
                 onDidDismiss={() => setToast('')}/>
-            { mode === 'login' && 
+            { mode === 'login' && appCtx.windowDimensions.height >= 600 &&
                 <IonButton className="login__recovery" fill="outline">Password Recovery</IonButton>
             }
     </div>

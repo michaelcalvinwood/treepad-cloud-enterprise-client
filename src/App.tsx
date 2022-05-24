@@ -39,32 +39,14 @@ let staticVal: boolean = false;
 // App selects the layout based on the current window width
 
 const App: React.FC = () => {
-  const [windowSize, setWindowSize] = useState<WindowSize | null>(null);
+  // const [windowSize, setWindowSize] = useState<WindowSize | null>(null);
 
   const appCtx = useContext(AppContext);
 
-  const windowResize = () => {
-    console.log('windowSize', window.innerWidth, window.innerHeight)
-    setWindowSize({
-      innerHeight: window.innerHeight,
-      innerWidth: window.innerWidth
-    })
-  };
-  
-  useEffect(() => {
-    if (staticVal) return;
-    staticVal = true;
-  
-    windowResize();
-    window.addEventListener('resize', windowResize);
-
-    document.title="TreePad Cloud";
-  
-  }, [])
   return (
     <>
-        {appCtx.isLoggedIn && window.innerWidth < 786 && <Mobile />}
-        {appCtx.isLoggedIn && window.innerWidth >= 786 && <Desktop />}
+        {appCtx.isLoggedIn && appCtx.windowDimensions.width < 786 && <Mobile />}
+        {appCtx.isLoggedIn && appCtx.windowDimensions.width >= 786 && <Desktop />}
         {!appCtx.isLoggedIn && <LoginSignUp />}
     </>
  )};
