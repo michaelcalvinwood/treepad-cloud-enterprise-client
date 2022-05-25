@@ -1,0 +1,11 @@
+@import '../../../styles/partials/variables.scss';
+
+.branches {
+    position: fixed;
+    top: $titleHeight + $controlHeight;
+    left: $treeWidth;
+    height: $branchHeight;
+    width: $branchWidth;
+
+    background-color: blue;
+}

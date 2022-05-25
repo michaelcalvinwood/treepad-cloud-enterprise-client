@@ -1,0 +1,11 @@
+@import '../../../styles/partials/variables.scss';
+
+.trees {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: $treeWidth;
+    height: 100vh;
+
+     background-color: green;
+}

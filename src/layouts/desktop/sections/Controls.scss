@@ -1,0 +1,10 @@
+@import '../../../styles/partials/variables.scss';
+
+.controls {
+    position: fixed;
+    top: $titleHeight;
+    left: $treeWidth;
+    width: $controlWidth;
+    height: $controlHeight;
+    background-color: yellow;
+}

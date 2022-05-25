@@ -1,0 +1,13 @@
+$treeWidth: 15vw;
+
+$titleHeight: 3rem;
+$titleWidth: 85vw;
+
+$controlWidth: 85vw;
+$controlHeight: 6rem;
+
+$branchWidth: 30vw;
+$branchHeight: calc(100vh - ($titleHeight + $controlHeight));
+
+$leaveWidth: 55vw;
+$leaveHeight: calc(100vh - ($titleHeight + $controlHeight));

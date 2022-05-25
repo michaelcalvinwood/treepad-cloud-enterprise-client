@@ -37,6 +37,76 @@ const LoginSignUp: React.FC = () => {
         setPassword(passwordVal.toString());
     }
 
+    const registerUser = (user: string, email: string, password: string) => {
+        const request = {
+            url: `${process.env.REACT_APP_BASE_URL}/authentication/register`,
+            method: 'post',
+            data: {
+                user,
+                email,
+                password
+            }
+        }
+        axios(request)
+        .then(res => {
+            setToast(res.data);
+            return;
+
+        })
+        .catch(err => {
+            console.log(err.response.data);
+            if (!err.response!.data) {
+                setToast(err.message!);
+                return;
+            } else {
+                setToast(err.response.data);
+                return;
+            }
+        })
+
+        return;
+    }
+
+    const loginUser = (user: string, password: string) => {
+        const request = {
+            url: `${process.env.REACT_APP_BASE_URL}/authentication/login`,
+            method: 'post',
+            data: {
+                user,
+                password
+            }
+        }
+        axios(request)
+        .then(res => {
+            // save session token to local storage
+
+            // sessionStorage.authToken = res.data.token;
+            //     sessionStorage.userId = res.data.userId.toString();
+            //     sessionStorage.userName = userName;
+            //     const userId = Number(res.data.userId);
+            //     this.props.setUser(userId, userName);
+
+            // set user to logged in
+            appCtx.setIsLoggedIn(true);
+
+            setToast(res.data);
+            return;
+
+        })
+        .catch(err => {
+            console.log(err.response.data);
+            if (!err.response!.data) {
+                setToast(err.message!);
+                return;
+            } else {
+                setToast(err.response.data);
+                return;
+            }
+        })
+
+        return;
+    }
+
     const handleSubmit = () => {
         const user = userRef.current!.value;
 
@@ -45,20 +115,24 @@ const LoginSignUp: React.FC = () => {
             return;
         }
 
-        const email = emailRef.current!.value;
+        let email='', isValidEmail;
+        if (mode === 'reqister') {
+            if (emailRef.current && emailRef.current.value)
+            email = emailRef.current!.value?.toString();
 
-        if (!email) {
-            setToast('Please enter an email address.');
-            return;
+            if (!email) {
+                setToast('Please enter an email address.');
+                return;
+            }
+    
+            isValidEmail = EmailValidator.validate(email.toString());
+    
+            if (!isValidEmail) {
+                setToast('Please enter a valid email address.');
+                return;
+            }
         }
-
-        const isValidEmail = EmailValidator.validate(email.toString());
-
-        if (!isValidEmail) {
-            setToast('Please enter a valid email address.');
-            return;
-        }
-
+        
         const passwordVal = passRef.current!.value;
 
         if (!passwordVal) {
@@ -73,39 +147,17 @@ const LoginSignUp: React.FC = () => {
             return;
         }
 
-        if (mode === 'register') {
-            const request = {
-                url: `${process.env.REACT_APP_BASE_URL}/authentication/register`,
-                method: 'post',
-                data: {
-                    user,
-                    email,
-                    password
-                }
-            }
-            axios(request)
-            .then(res => {
-                setToast(res.data);
-                return;
+        console.log('mode', mode);
 
-            })
-            .catch(err => {
-                console.log(err.response.data);
-                if (!err.response!.data) {
-                    setToast(err.message!);
-                    return;
-                } else {
-                    setToast(err.response.data);
-                    return;
-                }
-            })
-
-
-            return;
+        switch(mode) {
+            case 'register':
+                return registerUser(user!.toString(), email.toString(), password);
+            
+            case 'login':
+                return loginUser(user!.toString(), password);
         }
+        
     }
-
-    console.log('base url:', process.env.REACT_APP_BASE_URL);
 
     return (
         <div className="login">

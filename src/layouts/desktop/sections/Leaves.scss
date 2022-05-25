@@ -1,0 +1,11 @@
+@import '../../../styles/partials/variables.scss';
+
+.leaves {
+    position: fixed;
+    top: $titleHeight + $controlHeight;
+    left: $treeWidth + $branchWidth;
+    height: $leaveHeight;
+    width: $leaveWidth;
+
+    background-color: orange;
+}

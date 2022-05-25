@@ -22,6 +22,7 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import './theme/theme.css';
 
 import Desktop from './layouts/desktop/Desktop';
 import Mobile from './layouts/mobile/Mobile';
@@ -42,6 +43,8 @@ const App: React.FC = () => {
   // const [windowSize, setWindowSize] = useState<WindowSize | null>(null);
 
   const appCtx = useContext(AppContext);
+
+  // console.log('App', appCtx.windowDimensions);
 
   return (
     <>

@@ -1,0 +1,10 @@
+@import '../../../styles/partials/variables.scss';
+
+.title {
+    position: fixed;
+    top: 0;
+    left: $treeWidth;
+    height: $titleHeight;
+    width: $titleWidth;
+    background-color: red;
+}

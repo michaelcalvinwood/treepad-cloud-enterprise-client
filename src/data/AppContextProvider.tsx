@@ -7,8 +7,10 @@ let staticVal: boolean = false;
 const AppContextProvider: React.FC = props => {
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
     const [windowDimensions, setWindowDimensions] = useState<WindowDimensions>({height: window.innerHeight, width: window.innerWidth});
+    const [menuPage, setMenuPage] = useState<string>('trees');
 
     const windowResize = () => {
+        console.log(window.innerWidth, window.innerHeight);
         setWindowDimensions(prev => {
             prev = { height: window.innerHeight, width: window.innerWidth};
             return {...prev};
@@ -23,6 +25,7 @@ const AppContextProvider: React.FC = props => {
         window.addEventListener('resize', windowResize);
         console.log(windowDimensions);
         setIsLoggedIn(false);
+        setMenuPage('trees');
         // const authorizationData = await Storage.get({key: 'authorization'});
         // const authorizationInfo = authorizationData.value && authorizationData.value.length ?
         //     JSON.parse(authorizationData.value) :
@@ -37,9 +40,11 @@ const AppContextProvider: React.FC = props => {
             value = {{
                 isLoggedIn,
                 windowDimensions,
+                menuPage,
 
                 setIsLoggedIn,
-                setWindowDimensions
+                setWindowDimensions,
+                setMenuPage
             }}>
             {props.children}
         </AppContext.Provider>
