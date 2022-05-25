@@ -7,5 +7,7 @@
     height: $branchHeight;
     width: $branchWidth;
 
-    background-color: blue;
+    background-color: var(--ion-color-tertiary);
+
+    border-right: 1px solid var(--ion-color-primary);
 }

@@ -1,6 +1,9 @@
-import { IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar } from "@ionic/react";
+import { IonButtons, IonContent, IonFab, IonFabButton, IonHeader, IonIcon, IonMenuButton, IonPage, IonTitle, IonToolbar } from "@ionic/react";
 import React, { useContext, useEffect } from "react";
 import AppContext from "../../../data/AppContext";
+
+import { createOutline } from "ionicons/icons";
+
 
 const Branches: React.FC = () => {
 
@@ -11,9 +14,9 @@ const Branches: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-        <IonButtons slot='start'>
+        {/* <IonButtons slot='start'>
                 <IonMenuButton/>
-            </IonButtons>
+            </IonButtons> */}
           <IonTitle>
             Branches
           </IonTitle>
@@ -21,6 +24,12 @@ const Branches: React.FC = () => {
       </IonHeader>
       <IonContent>
         <h2>Branches</h2>
+
+        <IonFab horizontal="end" vertical="bottom" slot="fixed">
+          <IonFabButton routerLink="/add-tree">
+            <IonIcon icon={createOutline} />
+          </IonFabButton>
+        </IonFab>
       </IonContent>
     </IonPage>
   )

@@ -1,6 +1,8 @@
-import { IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar } from "@ionic/react";
+import { IonButtons, IonContent, IonFab, IonFabButton, IonHeader, IonIcon, IonMenuButton, IonPage, IonTitle, IonToolbar } from "@ionic/react";
 import React, { useContext, useEffect } from "react";
 import AppContext from "../../../data/AppContext";
+
+import { add } from 'ionicons/icons';
 
 const Trees: React.FC = () => {
   const appCtx = useContext(AppContext);
@@ -9,9 +11,9 @@ const Trees: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-        <IonButtons slot='start'>
+        {/* <IonButtons slot='start'>
                 <IonMenuButton/>
-            </IonButtons>
+            </IonButtons> */}
           <IonTitle>
             Trees
           </IonTitle>
@@ -19,6 +21,12 @@ const Trees: React.FC = () => {
       </IonHeader>
       <IonContent>
         <h2>Trees</h2>
+
+        <IonFab horizontal="end" vertical="bottom" slot="fixed">
+          <IonFabButton routerLink="/add-tree">
+            <IonIcon icon={add} />
+          </IonFabButton>
+        </IonFab>
       </IonContent>
     </IonPage>
   )

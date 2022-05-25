@@ -10,7 +10,7 @@ const Leaves: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-            <IonButtons slot='start'>
+            <IonButtons slot='end'>
                     <IonMenuButton/>
                 </IonButtons>
           <IonTitle>

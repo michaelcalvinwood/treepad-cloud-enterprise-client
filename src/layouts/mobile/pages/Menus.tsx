@@ -1,9 +1,10 @@
+import './Menus.scss';
+
 import { IonContent, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonMenu, IonMenuToggle, IonTitle, IonToolbar } from "@ionic/react";
 import React, { useContext, useEffect } from "react";
 
 import { pulseOutline, closeCircleOutline, closeOutline } from 'ionicons/icons';
 import AppContext from "../../../data/AppContext";
-
 
 import BranchIcon from '../../../assets/icons/branch.svg';
 import LeafIcon from '../../../assets/icons/leaf.svg';
@@ -18,7 +19,7 @@ const Menus: React.FC = () => {
     }, [appCtx.menuPage]);
 
     return (
-        <IonMenu contentId="main">
+        <IonMenu className='menus' contentId="main" side='end' >
             <IonHeader>
                 <IonToolbar>
                     <IonTitle>
@@ -32,7 +33,7 @@ const Menus: React.FC = () => {
             <IonContent>
                 <IonList>
                     {/* the props button and routerLink tell ionic that you want the item to act as if it were a button */}
-                    <IonMenuToggle>
+                    <IonMenuToggle className='menus__content-toggle'>
                         {appCtx.menuPage === 'trees' && <TreesMenu />}
                         {appCtx.menuPage === 'branches' &&
                             <IonItem button routerLink="/settings" routerDirection="none">

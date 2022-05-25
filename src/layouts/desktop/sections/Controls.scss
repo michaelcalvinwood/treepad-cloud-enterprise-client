@@ -6,5 +6,5 @@
     left: $treeWidth;
     width: $controlWidth;
     height: $controlHeight;
-    background-color: yellow;
+    border-bottom: 1px solid var(--ion-color-primary);
 }
