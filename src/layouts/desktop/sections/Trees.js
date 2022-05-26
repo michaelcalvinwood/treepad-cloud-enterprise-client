@@ -1,15 +1,35 @@
 import './Trees.scss';
-import React from "react";
+import React, { useContext } from "react";
 import { IonContent, IonFab, IonFabButton, IonHeader, IonIcon, IonPage } from '@ionic/react';
+import AppContext  from '../../../data/AppContext';
+
 
 import cloudIcon from '../../../assets/icons/cloud.svg';
 import closeIcon from '../../../assets/icons/close.svg';
 
+
 import { addOutline } from 'ionicons/icons';
 
-const Trees: React.FC = () => {
+const Trees = () => {
+    const appCtx = useContext(AppContext);
+
+    const handleTreeClose = () => {
+        appCtx.setDesktopSections(prev => {
+            prev.trees = false;
+            return ({...prev});
+        })
+    }
+
+    console.log('trees', appCtx.desktopSections);
+
+    const treesClassName = () => {
+        if (appCtx.desktopSections.trees) return 'trees';
+        else return 'trees trees--inactive'
+    }
+
+
     return (
-        <IonPage className='trees'>
+        <IonPage className={treesClassName()}>
             <IonContent className='ion-text-center'>
             <p className='trees__title ion-color-primary'>Trees</p>
     
@@ -20,7 +40,10 @@ const Trees: React.FC = () => {
             </IonFab>
             </IonContent>
             <img className='trees__cloud' src={cloudIcon} />
-            <img className='trees__close' src={closeIcon} />
+            <img
+                onClick={handleTreeClose} 
+                className='trees__close' 
+                src={closeIcon} />
       </IonPage>
         
     )

@@ -14,6 +14,17 @@
     justify-content: center;
     align-items: center;
 
+    transition: all $sectionCloseRate;
+
+    &--no-trees {
+        left: 0;
+        width: 100vw;
+    }
+
+    &__icon-tray {
+        display: flex;
+        border: 1px solid black;
+    }
     &__logo-container {
         width: 100%;
         display: flex;
@@ -27,4 +38,7 @@
         padding-bottom: .5rem;
     }
 
+}
+.title__icon-tray div:not(:first-child) {
+    border-left: 1px solid black;
 }

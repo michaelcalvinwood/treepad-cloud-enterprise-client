@@ -11,6 +11,25 @@
 
     border-right: 1px solid var(--ion-color-primary);
 
+    transition: all $sectionCloseRate;
+    
+
+    &--no-trees {
+        left: 0;
+        width: calc($branchWidth + $treeWidth);
+    }
+
+    &--no-branches {
+        width: 0;
+        overflow: hidden;
+        border: none;
+    }
+
+    &--no-controls {
+        height: calc($branchHeight + $controlHeight);
+        top: $titleHeight;
+    }
+
     &__title-container {
         margin: 1.25rem 0 0 0;
         width: 100%;

@@ -7,6 +7,44 @@
     height: $leaveHeight;
     width: $leaveWidth;
 
+    transition: all $sectionCloseRate;
+
+   
+
+    &--no-branches {
+        left: $treeWidth;
+        width: calc($leaveWidth + $branchWidth);
+    }
+
+    &--no-branches--no-controls {
+        left: $treeWidth;
+        width: calc($leaveWidth + $branchWidth);
+        height: calc($leaveHeight + $controlHeight);
+        top: $titleHeight;
+    }
+
+    &--no-trees--no-branches {
+        left: 0;
+        width: 100vw;
+    }
+
+    &--no-trees--no-controls {
+        height: calc($leaveHeight + $controlHeight);
+        top: $titleHeight;
+    }
+
+    &--no-trees--no-branches--no-controls {
+        left: 0;
+        width: 100vw;
+        height: calc($leaveHeight + $controlHeight);
+        top: $titleHeight;
+    }
+
+    &--no-controls {
+        height: calc($leaveHeight + $controlHeight);
+        top: $titleHeight;
+    }
+
     &__full-screen {
         position: absolute;
         top: 3px;

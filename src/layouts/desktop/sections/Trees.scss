@@ -6,6 +6,11 @@
     left: 0;
     width: $treeWidth;
     height: 100vh;
+    transition: all .5s;
+
+    &--inactive {
+        left: -$treeWidth;
+    }
 
     border-right: 1px solid var(--ion-color-primary);
 

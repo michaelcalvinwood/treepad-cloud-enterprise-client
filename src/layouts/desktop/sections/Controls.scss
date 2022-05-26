@@ -12,6 +12,19 @@
     justify-content: center;
     align-items: center;
 
+    transition: all $sectionCloseRate;
+
+    &--no-trees {
+        left: 0;
+        width: 100vw;
+    }
+
+    &--no-controls {
+        height: 0;
+        overflow: hidden;
+        border: none;
+    }
+
     &__container {
         width: 100%;
         max-width: 900px;

@@ -1,6 +1,7 @@
 import './Controls.scss';
-import React from 'react';
+import React, { useContext } from 'react';
 import ControlIcon from '../../../components/ControlIcon';
+import AppContext from '../../../data/AppContext';
 
 import saveIcon from '../../../assets/icons/save.svg';
 import insertSiblingIcon from '../../../assets/icons/insert-sibling.svg';
@@ -19,8 +20,24 @@ import settingsIcon from '../../../assets/icons/settings.svg';
 import closeIcon from '../../../assets/icons/close.svg';
 
 const Controls: React.FC = () => {
+    const appCtx = useContext(AppContext);
+
+    const controlsClassName = () => {
+        let cname = 'controls';
+
+        if (!appCtx.desktopSections.trees) cname += ' controls--no-trees';
+        if (!appCtx.desktopSections.controls) cname += ' controls--no-controls';
+        return cname;
+    }
+
+    const handleControlsClose = () => {
+        appCtx.setDesktopSections(prev => {
+            prev.controls = false;
+            return ({...prev});
+        })
+    }
     return (
-        <div className='controls'>
+        <div className={controlsClassName()}>
             <div className="controls__container">
                 <div className='controls__group'>
                     <ControlIcon icon={saveIcon} />
@@ -41,7 +58,10 @@ const Controls: React.FC = () => {
                     <ControlIcon icon={settingsIcon} />
                 </div>
             </div>
-            <img className='controls__close' src={closeIcon} />
+            <img 
+                onClick={handleControlsClose}
+                className='controls__close' 
+                src={closeIcon} />
         </div>
     )
 }
