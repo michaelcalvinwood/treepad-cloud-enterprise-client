@@ -89,6 +89,9 @@ const LoginSignUp: React.FC = () => {
             // set user to logged in
             appCtx.setIsLoggedIn(true);
 
+            // TODO: pull username from response
+            appCtx.setUserName(user);
+
             setToast(res.data);
             return;
 

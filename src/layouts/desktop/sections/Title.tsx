@@ -2,6 +2,8 @@ import './Title.scss';
 import React from "react";
 import treepadIcon from '../../../assets/icons/treepadcloud-icon.svg';
 
+
+
 const Title: React.FC = () => {
     return (
        <div className='title'>

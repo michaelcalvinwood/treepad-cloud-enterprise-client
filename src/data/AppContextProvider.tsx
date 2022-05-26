@@ -8,6 +8,7 @@ const AppContextProvider: React.FC = props => {
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
     const [windowDimensions, setWindowDimensions] = useState<WindowDimensions>({height: window.innerHeight, width: window.innerWidth});
     const [menuPage, setMenuPage] = useState<string>('trees');
+    const [userName, setUserName] = useState<string>('');
 
     const windowResize = () => {
         console.log(window.innerWidth, window.innerHeight);
@@ -41,10 +42,12 @@ const AppContextProvider: React.FC = props => {
                 isLoggedIn,
                 windowDimensions,
                 menuPage,
+                userName,
 
                 setIsLoggedIn,
                 setWindowDimensions,
-                setMenuPage
+                setMenuPage,
+                setUserName
             }}>
             {props.children}
         </AppContext.Provider>
