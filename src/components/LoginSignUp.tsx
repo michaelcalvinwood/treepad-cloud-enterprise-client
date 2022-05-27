@@ -86,18 +86,25 @@ const LoginSignUp: React.FC = () => {
             //     const userId = Number(res.data.userId);
             //     this.props.setUser(userId, userName);
 
-            // set user to logged in
+            const {userName, userId, email, server, token} = res.data;
+
+
+            console.log(userName, userId, email, server, token);
+            
+            // Note: userId is number
+            appCtx.setUserName(userName);
+            appCtx.setUserId(userId);
+            appCtx.setEmail(email);
+            appCtx.setServer(server);
+            appCtx.setToken(token)
+
             appCtx.setIsLoggedIn(true);
-
-            // TODO: pull username from response
-            appCtx.setUserName(user);
-
-            setToast(res.data);
+            
             return;
 
         })
         .catch(err => {
-            console.log(err.response.data);
+            console.log(err);
             if (!err.response!.data) {
                 setToast(err.message!);
                 return;

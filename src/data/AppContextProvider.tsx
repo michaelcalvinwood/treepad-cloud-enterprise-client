@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import AppContext, { WindowDimensions, DesktopSections } from "./AppContext";
+import AppContext, { WindowDimensions, DesktopSections, Modals } from "./AppContext";
 import { Storage } from '@capacitor/storage';
 
 let staticVal: boolean = false;
@@ -8,13 +8,21 @@ const AppContextProvider: React.FC = props => {
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
     const [windowDimensions, setWindowDimensions] = useState<WindowDimensions>({height: window.innerHeight, width: window.innerWidth});
     const [menuPage, setMenuPage] = useState<string>('trees');
-    const [userName, setUserName] = useState<string>('');
     const [desktopSections, setDesktopSections] = useState<DesktopSections>({
         controls: true,
         trees: true,
         branches: true,
         leaves: false
     })
+    const [userName, setUserName] = useState<string>('');
+    const [userId, setUserId] = useState<number>(-1);
+    const [email, setEmail] = useState<string>('');
+    const [server, setServer] = useState<string>('');
+    const [token, setToken] = useState<string>('');
+    const [modals, setModals]= useState<Modals>({
+        addTree: false
+    })
+
     const windowResize = () => {
         console.log(window.innerWidth, window.innerHeight);
         setWindowDimensions(prev => {
@@ -53,14 +61,24 @@ const AppContextProvider: React.FC = props => {
                 isLoggedIn,
                 windowDimensions,
                 menuPage,
-                userName,
                 desktopSections,
+                userName,
+                userId,
+                email,
+                server,
+                token,
+                modals,
 
                 setIsLoggedIn,
                 setWindowDimensions,
                 setMenuPage,
+                setDesktopSections,
                 setUserName,
-                setDesktopSections
+                setUserId,
+                setEmail,
+                setServer,
+                setToken,
+                setModals
             }}>
             {props.children}
         </AppContext.Provider>

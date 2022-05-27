@@ -58,7 +58,11 @@ ion-menu ion-title {
   padding: 0;
  }
 
+ ion-select {
+  --placeholder-color: black;
+  --placeholder-opacity: 1;
 
+ }
 
  .ion-menu-button-container {
    height: 100px;
@@ -67,4 +71,36 @@ ion-menu ion-title {
 
  .cursor-pointer {
    cursor: pointer;
+   overflow-y: scroll;
  }
+
+ /* add a scrollbar to ion-select */
+
+ .alert-radio-group::-webkit-scrollbar, .alert-checkbox-group::-webkit-scrollbar {
+  width: 0.7em;
+  display: block !important;
+    &::-webkit-scrollbar {
+      width: 12px;
+  }
+
+  &::-webkit-scrollbar-track {
+      -webkit-box-shadow: inset 0 0 6px     rgba(0,0,0,0.3); 
+      border-radius: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+      border-radius: 10px;
+      -webkit-box-shadow: inset 0 0 6px     rgba(0,0,0,0.5); 
+  }
+}
+
+.alert-radio-group::-webkit-scrollbar-track, .alert-checkbox-group::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+}
+
+.alert-radio-group::-webkit-scrollbar-thumb, .alert-checkbox-group::-webkit-scrollbar-thumb {
+  background-color: darkgrey;
+  outline: 1px solid rgba($color: #aaaaaa, $alpha: .75);
+  border-radius: 4px;
+}

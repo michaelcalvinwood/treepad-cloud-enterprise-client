@@ -4,6 +4,7 @@ import Controls from './sections/Controls';
 import Leaves from './sections/Leaves';
 import Title from './sections/Title';
 import Trees from './sections/Trees';
+import Modals from './sections/Modals';
 
 const Desktop: React.FC = () => {
     return (
@@ -13,6 +14,7 @@ const Desktop: React.FC = () => {
             <Trees />
             <Branches />
             <Leaves />
+            <Modals />
         </div>
     )
 }

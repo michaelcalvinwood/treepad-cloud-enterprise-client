@@ -1,8 +1,9 @@
 import './Trees.scss';
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { IonContent, IonFab, IonFabButton, IonHeader, IonIcon, IonPage } from '@ionic/react';
 import AppContext  from '../../../data/AppContext';
 
+import AddTree from '../../../modals/AddTree';
 
 import cloudIcon from '../../../assets/icons/cloud.svg';
 import closeIcon from '../../../assets/icons/close.svg';
@@ -27,25 +28,28 @@ const Trees = () => {
         else return 'trees trees--inactive'
     }
 
-
     return (
-        <IonPage className={treesClassName()}>
-            <IonContent className='ion-text-center'>
-            <p className='trees__title ion-color-primary'>Trees</p>
-    
-            <IonFab horizontal="end" vertical="bottom" slot="fixed">
-                <IonFabButton routerLink="/add-tree">
-                <IonIcon icon={addOutline} />
-                </IonFabButton>
-            </IonFab>
-            </IonContent>
-            <img className='trees__cloud' src={cloudIcon} />
-            <img
-                onClick={handleTreeClose} 
-                className='trees__close' 
-                src={closeIcon} />
-      </IonPage>
+        <>
+            <IonPage className={treesClassName()}>
+                <IonContent className='ion-text-center'>
+                <p className='trees__title ion-color-primary'>Trees</p>
         
+                <IonFab horizontal="end" vertical="bottom" slot="fixed">
+                    <IonFabButton onClick={() => appCtx.setModals(prev => {
+                        prev.addTree = true;
+                        return {...prev}
+                    })}>
+                    <IonIcon icon={addOutline} />
+                    </IonFabButton>
+                </IonFab>
+                </IonContent>
+                <img className='trees__cloud' src={cloudIcon} />
+                <img
+                    onClick={handleTreeClose} 
+                    className='trees__close' 
+                    src={closeIcon} />
+        </IonPage>
+    </>
     )
 }
 

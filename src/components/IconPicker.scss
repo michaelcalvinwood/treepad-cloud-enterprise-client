@@ -1,0 +1,57 @@
+@import '../styles/partials/variables.scss';
+
+.icon-picker {
+    position: relative;
+    top: -15rem;
+    left: -15vw;
+    z-index: 2000;
+    width: 80vw;
+    background-color: white;
+    border: 2px solid $app-primary-color;
+    border-radius: 4px;
+    height: 60vh;
+    padding: .25rem;
+
+    &__search {
+        width: 40vw;
+    }
+    &__list-container {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+    &__icon-list {
+        position: absolute;
+        bottom: 1rem;
+        width: 94%;
+        overflow-y: auto;
+        height: 43vh;
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        border: 2px solid $app-primary-color;
+        border-radius: 4px;
+    }
+    &__select {
+        width: 40vw;
+    }
+    &__list {
+        width: 90%;
+        height: 100%;
+        margin: auto;
+        display: block;
+    }
+    &__icon {
+        width: 15rem;
+        padding: .25rem;
+        border: 1px solid $app-primary-color;
+        margin: 0 .25rem .5rem .25rem;
+        border-radius: 4px;
+        cursor: pointer;
+
+        &:hover {
+            background-color: $app-secondary-color;
+        }
+    }
+}
+

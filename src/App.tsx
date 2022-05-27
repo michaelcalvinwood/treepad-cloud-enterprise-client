@@ -22,7 +22,7 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
-import './theme/theme.css';
+import './theme/theme.scss';
 
 import Desktop from './layouts/desktop/Desktop';
 import Mobile from './layouts/mobile/Mobile';
