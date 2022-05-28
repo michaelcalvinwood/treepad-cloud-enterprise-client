@@ -1,0 +1,31 @@
+@import '../styles/partials/variables.scss';
+
+.tree-card {
+    width: 90%;
+    cursor: pointer;
+    background-color: white;
+    border: 1px solid $app-primary-color;
+
+    &--active {
+        background-color: $app-tertiary-color;
+    }
+    &__image {
+        margin: .75rem 0 0 0;
+        height: 2.5rem;
+        width: 2.5rem;
+    }
+    &__header {
+        margin: 0;
+        padding: 0;
+        color: red;
+       
+    }
+    &__title {
+        margin: 0;
+        font-style: italic;
+    }
+
+    &:hover {
+        background-color: $app-tertiary-color;
+    }
+}

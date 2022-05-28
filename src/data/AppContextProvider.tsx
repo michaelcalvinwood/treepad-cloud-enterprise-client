@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import AppContext, { WindowDimensions, DesktopSections, Modals } from "./AppContext";
+import React, { useEffect, useState } from "react";
+import AppContext, { WindowDimensions, DesktopSections, Modals, TreeInfo } from "./AppContext";
 import { Storage } from '@capacitor/storage';
 
 let staticVal: boolean = false;
@@ -22,6 +22,8 @@ const AppContextProvider: React.FC = props => {
     const [modals, setModals]= useState<Modals>({
         addTree: false
     })
+    const [treeInfo, setTreeInfo] = useState<TreeInfo[]>([]);
+    const [curTree, setCurTree] = useState<string>('');
 
     const windowResize = () => {
         console.log(window.innerWidth, window.innerHeight);
@@ -54,6 +56,10 @@ const AppContextProvider: React.FC = props => {
        
     };
 
+    useEffect(() => {
+        if (treeInfo.length && !curTree) setCurTree(treeInfo[0].tree_id);
+    },[treeInfo]);
+
     initContext();
     return(
         <AppContext.Provider
@@ -68,6 +74,8 @@ const AppContextProvider: React.FC = props => {
                 server,
                 token,
                 modals,
+                treeInfo,
+                curTree,
 
                 setIsLoggedIn,
                 setWindowDimensions,
@@ -78,7 +86,9 @@ const AppContextProvider: React.FC = props => {
                 setEmail,
                 setServer,
                 setToken,
-                setModals
+                setModals,
+                setTreeInfo,
+                setCurTree
             }}>
             {props.children}
         </AppContext.Provider>

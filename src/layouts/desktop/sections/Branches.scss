@@ -7,7 +7,7 @@
     height: $branchHeight;
     width: $branchWidth;
 
-    background-color: var(--ion-color-tertiary);
+    // background-color: var(--ion-color-tertiary);
 
     border-right: 1px solid var(--ion-color-primary);
 
@@ -28,6 +28,11 @@
     &--no-controls {
         height: calc($branchHeight + $controlHeight);
         top: $titleHeight;
+    }
+    &__image {
+        filter: invert(40%) sepia(51%) saturate(2904%) hue-rotate(206deg) brightness(101%) contrast(101%);
+        height: 2.5rem;
+        width: 2.5rem;
     }
 
     &__title-container {

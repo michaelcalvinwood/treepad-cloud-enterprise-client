@@ -7,12 +7,13 @@
     width: $treeWidth;
     height: 100vh;
     transition: all .5s;
+    
 
     &--inactive {
         left: -$treeWidth;
     }
 
-    border-right: 1px solid var(--ion-color-primary);
+    border: 1px solid var(--ion-color-primary);
 
     &__title {
         margin: 1.25rem 0 0 0;

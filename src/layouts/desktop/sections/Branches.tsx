@@ -1,5 +1,5 @@
 import './Branches.scss';
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import AppContext from '../../../data/AppContext';
 
 import cloudIcon from '../../../assets/icons/cloud.svg';
@@ -7,8 +7,9 @@ import closeIcon from '../../../assets/icons/close.svg';
 
 
 const Branches: React.FC = () => {
+    const [icon, setIcon] = useState('');
     const appCtx = useContext(AppContext);
-
+    
     const branchesClassName = () => {
         let cname = 'branches';
 
@@ -26,11 +27,26 @@ const Branches: React.FC = () => {
         })
     }
 
+    useEffect(() => {
+        console.log('length', appCtx.treeInfo.length);
+        console.log('curTree', appCtx.curTree);
+        if (appCtx.treeInfo.length && appCtx.curTree) {
+            const curTree = appCtx.treeInfo.find(tree => tree.tree_id === appCtx.curTree);
+            console.log('curTree', curTree);
+            console.log(curTree?.icon);
+            setIcon(curTree?.icon!);
+        } 
+    })
 
     return (
         <div className={branchesClassName()}>
             <div className='branches__title-container'>
-                <p className="branches__title">{appCtx.userName}</p>
+                {!!icon &&
+                    <img
+                        className='branches__image' 
+                        src={`${appCtx.server}${icon}`} 
+                    />
+                }
             </div>
             <img className="branches__cloud" src={cloudIcon} />
             <img

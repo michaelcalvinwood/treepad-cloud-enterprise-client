@@ -16,6 +16,16 @@ export interface Modals {
     addTree: boolean
 }
 
+export interface TreeInfo {
+    tree_id: string,
+    icon: string,
+    color: string,
+    tree_name: string,
+    owner_name: string,
+    updated_ts: number,
+    type: string
+}
+
 const AppContext = React.createContext<{
     isLoggedIn: boolean,
     windowDimensions: WindowDimensions,
@@ -27,6 +37,8 @@ const AppContext = React.createContext<{
     server: string,
     token: string,
     modals: Modals,
+    treeInfo: TreeInfo[],
+    curTree: string,
     
     setIsLoggedIn: (value: boolean) => void,
     setWindowDimensions: (windowDimensions: WindowDimensions) => void,
@@ -38,6 +50,8 @@ const AppContext = React.createContext<{
     setServer: (val: string) => void;
     setToken: (val: string) => void;
     setModals: (cb: (val: Modals) => Modals) => void;
+    setTreeInfo: (val: TreeInfo[]) => void;
+    setCurTree: (val: string) => void;
 }>({
     isLoggedIn: false,
     windowDimensions: {height: 0, width: 0},
@@ -56,6 +70,8 @@ const AppContext = React.createContext<{
     modals: {
         addTree: false
     },
+    treeInfo: [],
+    curTree: "",
 
     setIsLoggedIn: () => {},
     setWindowDimensions: () => {},
@@ -66,8 +82,9 @@ const AppContext = React.createContext<{
     setEmail: () => {},
     setServer: () => {},
     setToken: () => {},
-    setModals: () => {}
-
+    setModals: () => {},
+    setTreeInfo: () => {},
+    setCurTree: () => {}
 });
 
 export default AppContext;
