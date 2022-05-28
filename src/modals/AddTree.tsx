@@ -42,6 +42,9 @@ const AddTree: React.FC<{closeModal: () => void}> = (props) => {
         })
         .catch(err => {
             console.log(err);
+
+            if(!err.response.data) setMessage(err.message);
+            else setMessage(err.response.data);
         })
     }
    
