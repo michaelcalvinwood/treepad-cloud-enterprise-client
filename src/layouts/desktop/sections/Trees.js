@@ -10,7 +10,7 @@ import cloudIcon from '../../../assets/icons/cloud.svg';
 import closeIcon from '../../../assets/icons/close.svg';
 
 import { addOutline } from 'ionicons/icons';
-import { getTrees } from '../../../utils/tree-functions';
+import { getTrees } from '../../../utils/api-axios';
 import TreesMenu from '../../mobile/menus/TreesMenu';
 
 const Trees = () => {

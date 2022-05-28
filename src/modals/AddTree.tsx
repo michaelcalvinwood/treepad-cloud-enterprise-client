@@ -3,7 +3,7 @@ import React, {useContext, useState} from 'react';
 import AppContext from '../data/AppContext';
 import { IonButton, IonInput, IonItem, IonLabel, IonSearchbar, IonTextarea, IonToast } from '@ionic/react';
 import IconPicker from '../components/IconPicker';
-import axios from 'axios';
+import { createTree } from '../utils/api-axios';
 
 const AddTree: React.FC<{closeModal: () => void}> = (props) => {
     const [icon, setIcon] = useState<string>('/svg/tree.svg');
@@ -18,34 +18,10 @@ const AddTree: React.FC<{closeModal: () => void}> = (props) => {
         setIcon(name);
     }
 
-    const createTree = () => {
+    const createTheTree = () => {
         if (!treeName) return setMessage('Please enter a tree name');
-        console.log ("AddTree icon", icon);
 
-        const request = {
-            url: `${appCtx.server}/trees`,
-            method: 'post',
-            data: {
-                token: appCtx.token,
-                icon,
-                treeName,
-                treeDesc: treeDesc || ''
-            }
-        }
-
-        axios(request)
-        .then(res => {
-            appCtx.setModals(prev => {
-                prev.addTree = false;
-                return{...prev}
-            })
-        })
-        .catch(err => {
-            console.log(err);
-
-            if(!err.response.data) setMessage(err.message);
-            else setMessage(err.response.data);
-        })
+        createTree(appCtx.server, appCtx.token, icon, treeName, treeDesc || '', appCtx.setModals, setMessage)
     }
    
     return (
@@ -68,7 +44,7 @@ const AddTree: React.FC<{closeModal: () => void}> = (props) => {
                     <IonTextarea onIonChange={e => setTreeDesc(e.detail!.value || '')}/>
                 </IonItem>
                 <IonButton 
-                    onClick={createTree}
+                    onClick={createTheTree}
                     className='add-tree__button-create'>
                     Create
                 </IonButton>
