@@ -39,6 +39,7 @@ const AppContext = React.createContext<{
     modals: Modals,
     treeInfo: TreeInfo[],
     curTree: string,
+    toast: string,
     
     setIsLoggedIn: (value: boolean) => void,
     setWindowDimensions: (windowDimensions: WindowDimensions) => void,
@@ -52,6 +53,7 @@ const AppContext = React.createContext<{
     setModals: (cb: (val: Modals) => Modals) => void;
     setTreeInfo: (val: TreeInfo[]) => void;
     setCurTree: (val: string) => void;
+    setToast: (val: string) => void;
 }>({
     isLoggedIn: false,
     windowDimensions: {height: 0, width: 0},
@@ -72,6 +74,7 @@ const AppContext = React.createContext<{
     },
     treeInfo: [],
     curTree: "",
+    toast: '',
 
     setIsLoggedIn: () => {},
     setWindowDimensions: () => {},
@@ -84,7 +87,8 @@ const AppContext = React.createContext<{
     setToken: () => {},
     setModals: () => {},
     setTreeInfo: () => {},
-    setCurTree: () => {}
+    setCurTree: () => {},
+    setToast: () => {},
 });
 
 export default AppContext;

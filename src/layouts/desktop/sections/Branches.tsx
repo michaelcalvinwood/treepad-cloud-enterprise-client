@@ -1,13 +1,16 @@
 import './Branches.scss';
 import React, { useContext, useState, useEffect } from "react";
-import AppContext from '../../../data/AppContext';
+import AppContext, {TreeInfo} from '../../../data/AppContext';
 
 import cloudIcon from '../../../assets/icons/cloud.svg';
 import closeIcon from '../../../assets/icons/close.svg';
+import { IonSearchbar } from '@ionic/react';
 
 
 const Branches: React.FC = () => {
-    const [icon, setIcon] = useState('');
+    const [tree, setTree] = useState<TreeInfo | null>(null);
+    const [search, setSearch] = useState<string>('');
+
     const appCtx = useContext(AppContext);
     
     const branchesClassName = () => {
@@ -34,20 +37,32 @@ const Branches: React.FC = () => {
             const curTree = appCtx.treeInfo.find(tree => tree.tree_id === appCtx.curTree);
             console.log('curTree', curTree);
             console.log(curTree?.icon);
-            setIcon(curTree?.icon!);
+            if (curTree) setTree(curTree);
         } 
     })
 
     return (
         <div className={branchesClassName()}>
-            <div className='branches__title-container'>
-                {!!icon &&
-                    <img
-                        className='branches__image' 
-                        src={`${appCtx.server}${icon}`} 
-                    />
-                }
+            {/* <div className='trees__actions'>
+                <img 
+                    className='trees__cloud' 
+                    src={cloudIcon} />
+                <img
+                    onClick={() => setSettings(prev => !prev)} 
+                    className='trees__settings' 
+                    src={settingsIcon} />
+                <img
+                    onClick={handleTreeClose} 
+                    className='trees__close' 
+                    src={closeIcon} />
+            </div> */}
+            <div className='branches__title-container'> 
+                <p className='branches__title'>{tree && tree.tree_name}</p>
             </div>
+           <IonSearchbar 
+                onIonChange={e => setSearch(e.detail!.value || '')}
+                className='branches__search' 
+                placeholder=''/>
             <img className="branches__cloud" src={cloudIcon} />
             <img
                 onClick={handleBranchClose} 

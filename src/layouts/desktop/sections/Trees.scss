@@ -8,6 +8,22 @@
     height: 100vh;
     transition: all .5s;
     
+        overflow-y: auto;
+        overflow-x: hidden;
+            &::-webkit-scrollbar {
+                width: 12px;
+            }
+            
+            &::-webkit-scrollbar-track {
+                -webkit-box-shadow: inset 0 0 6px     rgba(0,0,0,0.3); 
+                border-radius: 10px;
+            }
+            
+            &::-webkit-scrollbar-thumb {
+                border-radius: 10px;
+                -webkit-box-shadow: inset 0 0 6px     rgba(0,0,0,0.5); 
+            }
+    
 
     &--inactive {
         left: -$treeWidth;
@@ -16,26 +32,28 @@
     border: 1px solid var(--ion-color-primary);
 
     &__title {
-        margin: 1.25rem 0 0 0;
+        margin: .5rem 0 0 0;
         font-size: .75rem;
         font-style: italic;
     }
-    &__cloud {
-        position: absolute;
-        top: 3px;
-        left: 3px;
+    &__actions {
+        display: flex;
+        justify-content: space-between;
+        padding: .5rem;
+        box-sizing: border-box;
+    }
+    &__cloud, &__settings {
         height: .75rem;
         width: .75rem;
         cursor: pointer;
     }
     &__close {
-        position: absolute;
-        top: 3px;
-        right: 3px;
-        height: .6rem;
-        width: .6rem;
+        height: .55rem;
+        width: .55rem;
         cursor: pointer;
     }
-
+    &__settings {
+        filter: invert(40%) sepia(51%) saturate(2904%) hue-rotate(206deg) brightness(101%) contrast(101%);
+    }
 
 }

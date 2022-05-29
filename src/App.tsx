@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from 'react';
 
-import { IonApp, setupIonicReact } from '@ionic/react';
+import { IonApp, IonToast, setupIonicReact } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import AppContext from './data/AppContext';
 
@@ -51,6 +51,13 @@ const App: React.FC = () => {
         {appCtx.isLoggedIn && appCtx.windowDimensions.width < 786 && <Mobile />}
         {appCtx.isLoggedIn && appCtx.windowDimensions.width >= 786 && <Desktop />}
         {!appCtx.isLoggedIn && <LoginSignUp />}
+        <IonToast
+                position='middle'
+                color="secondary"
+                message={appCtx.toast}
+                isOpen={!!appCtx.toast}
+                duration={3000}
+                onDidDismiss={() => appCtx.setToast('')} />
     </>
  )};
 

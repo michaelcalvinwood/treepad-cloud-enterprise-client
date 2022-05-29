@@ -19,7 +19,7 @@ export const getTrees = (server, token, setTreeInfo) => {
     })
 }
 
-export const createTree = (server, token, icon, treeName, treeDesc, setModals, setMessage) => {
+export const createTree = (server, token, icon, treeName, treeDesc, setModals, setMessage, setTreeInfo) => {
     const request = {
         url: `${server}/trees`,
         method: 'post',
@@ -35,6 +35,7 @@ export const createTree = (server, token, icon, treeName, treeDesc, setModals, s
 
     axios(request)
     .then(res => {
+        setTreeInfo(res.data);
         setModals(prev => {
             prev.addTree = false;
             return{...prev}
@@ -46,5 +47,29 @@ export const createTree = (server, token, icon, treeName, treeDesc, setModals, s
         if(!err.response.data) setMessage(err.message);
         else setMessage(err.response.data);
     })
+}
 
+export const deleteTree = (server, token, treeId, setTreeInfo, setToast) => {
+    const request = {
+        url: `${server}/tree/${treeId}`,
+        method: 'delete',
+        headers: {
+            Authorization: `Bearer ${token}`
+        }    
+    }
+
+    axios(request)
+    .then(res => {
+        setToast('got it');
+        // setTreeInfo(prev => {
+        //     const newTreeList = prev.filter(tree => tree.tree_id !== treeId);
+        //     return ([...newTreeList]);
+        // });
+    })
+    .catch(err => {
+        console.log(err);
+
+        if(!err.response.data) setToast(err.message);
+        else setToast(err.response.data);
+    })
 }

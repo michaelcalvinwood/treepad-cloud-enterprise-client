@@ -24,6 +24,7 @@ const AppContextProvider: React.FC = props => {
     })
     const [treeInfo, setTreeInfo] = useState<TreeInfo[]>([]);
     const [curTree, setCurTree] = useState<string>('');
+    const [toast, setToast] = useState<string>('');
 
     const windowResize = () => {
         console.log(window.innerWidth, window.innerHeight);
@@ -76,6 +77,7 @@ const AppContextProvider: React.FC = props => {
                 modals,
                 treeInfo,
                 curTree,
+                toast,
 
                 setIsLoggedIn,
                 setWindowDimensions,
@@ -88,7 +90,8 @@ const AppContextProvider: React.FC = props => {
                 setToken,
                 setModals,
                 setTreeInfo,
-                setCurTree
+                setCurTree,
+                setToast,
             }}>
             {props.children}
         </AppContext.Provider>

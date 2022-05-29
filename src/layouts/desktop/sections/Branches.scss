@@ -29,21 +29,17 @@
         height: calc($branchHeight + $controlHeight);
         top: $titleHeight;
     }
-    &__image {
-        filter: invert(40%) sepia(51%) saturate(2904%) hue-rotate(206deg) brightness(101%) contrast(101%);
-        height: 2.5rem;
-        width: 2.5rem;
-    }
 
+    
+    &__title {
+        margin-bottom: .25rem;
+    }
     &__title-container {
-        margin: 1.25rem 0 0 0;
         width: 100%;
         text-align: center;
-    }
-    &__title {
-        font-size: .75rem;
-        font-style: italic;
         color: var(--ion-color-primary);
+        font-style: italic;
+        font-size: .75rem;        
     }
     &__cloud {
         position: absolute;
