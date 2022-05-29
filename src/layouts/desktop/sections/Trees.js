@@ -79,10 +79,13 @@ const Trees = () => {
                 }
         
                 <IonFab horizontal="end" vertical="bottom" slot="fixed">
-                    <IonFabButton onClick={() => appCtx.setModals(prev => {
-                        prev.addTree = true;
-                        return {...prev}
-                    })}>
+                    <IonFabButton onClick={() => {
+                        appCtx.setModals(prev => {
+                            prev.addTree.active = true;
+                            prev.addTree.type = 'insert';
+                            return {...prev}
+                        });
+                    }}>
                     <IonIcon icon={addOutline} />
                     </IonFabButton>
                 </IonFab>

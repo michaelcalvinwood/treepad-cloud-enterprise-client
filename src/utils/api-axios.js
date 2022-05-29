@@ -44,7 +44,38 @@ export const createTree = (server, token, icon, treeName, treeDesc, setModals, s
     .catch(err => {
         console.log(err);
 
-        if(!err.response.data) setMessage(err.message);
+        if(!err.response) setMessage(err.message);
+        else setMessage(err.response.data);
+    })
+}
+
+export const editTree = (server, token, icon, treeId, treeName, treeDesc, setModals, setMessage, setTreeInfo) => {
+    const request = {
+        url: `${server}/trees`,
+        method: 'put',
+        headers: {
+            Authorization: `Bearer ${token}`
+        },
+        data: {
+            icon,
+            treeName,
+            treeDesc,
+            treeId
+        }
+    }
+
+    axios(request)
+    .then(res => {
+        setTreeInfo(res.data);
+        setModals(prev => {
+            prev.addTree = false;
+            return{...prev}
+        })
+    })
+    .catch(err => {
+        console.log(err);
+
+        if(!err.response) setMessage(err.message);
         else setMessage(err.response.data);
     })
 }
@@ -58,13 +89,13 @@ export const deleteTree = (server, token, treeId, setTreeInfo, setToast) => {
         }    
     }
 
+
     axios(request)
     .then(res => {
-        setToast('got it');
-        // setTreeInfo(prev => {
-        //     const newTreeList = prev.filter(tree => tree.tree_id !== treeId);
-        //     return ([...newTreeList]);
-        // });
+        setTreeInfo(prev => {
+            const newTreeList = prev.filter(tree => tree.tree_id !== treeId);
+            return ([...newTreeList]);
+        });
     })
     .catch(err => {
         console.log(err);

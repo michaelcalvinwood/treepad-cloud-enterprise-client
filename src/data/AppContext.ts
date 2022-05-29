@@ -12,18 +12,31 @@ export interface DesktopSections {
     leaves: boolean
 }
 
-export interface Modals {
-    addTree: boolean
-}
-
 export interface TreeInfo {
     tree_id: string,
     icon: string,
     color: string,
     tree_name: string,
+    tree_desc: string,
     owner_name: string,
     updated_ts: number,
     type: string
+}
+
+export interface Modals {
+    addTree: {
+        active: boolean,
+        type: string,
+        treeId: string,
+    }
+}
+
+export const initModals = {
+    addTree: {
+        active: false,
+        type: 'insert',
+        treeId: ''
+    }
 }
 
 const AppContext = React.createContext<{
@@ -36,10 +49,10 @@ const AppContext = React.createContext<{
     email: string,
     server: string,
     token: string,
-    modals: Modals,
     treeInfo: TreeInfo[],
     curTree: string,
     toast: string,
+    modals: Modals,
     
     setIsLoggedIn: (value: boolean) => void,
     setWindowDimensions: (windowDimensions: WindowDimensions) => void,
@@ -50,10 +63,11 @@ const AppContext = React.createContext<{
     setEmail: (val: string) => void;
     setServer: (val: string) => void;
     setToken: (val: string) => void;
-    setModals: (cb: (val: Modals) => Modals) => void;
     setTreeInfo: (val: TreeInfo[]) => void;
     setCurTree: (val: string) => void;
     setToast: (val: string) => void;
+    setModals: (cb: (val: Modals) => Modals) => void;
+    
 }>({
     isLoggedIn: false,
     windowDimensions: {height: 0, width: 0},
@@ -69,12 +83,10 @@ const AppContext = React.createContext<{
     email: '',
     server: '',
     token: '',
-    modals: {
-        addTree: false
-    },
     treeInfo: [],
     curTree: "",
     toast: '',
+    modals: initModals,
 
     setIsLoggedIn: () => {},
     setWindowDimensions: () => {},
@@ -85,10 +97,10 @@ const AppContext = React.createContext<{
     setEmail: () => {},
     setServer: () => {},
     setToken: () => {},
-    setModals: () => {},
     setTreeInfo: () => {},
     setCurTree: () => {},
     setToast: () => {},
+    setModals: () => {}
 });
 
 export default AppContext;

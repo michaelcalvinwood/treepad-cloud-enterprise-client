@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import AppContext, { WindowDimensions, DesktopSections, Modals, TreeInfo } from "./AppContext";
+import AppContext, { WindowDimensions, DesktopSections, Modals, TreeInfo, initModals } from "./AppContext";
 import { Storage } from '@capacitor/storage';
 
 let staticVal: boolean = false;
@@ -19,12 +19,10 @@ const AppContextProvider: React.FC = props => {
     const [email, setEmail] = useState<string>('');
     const [server, setServer] = useState<string>('');
     const [token, setToken] = useState<string>('');
-    const [modals, setModals]= useState<Modals>({
-        addTree: false
-    })
     const [treeInfo, setTreeInfo] = useState<TreeInfo[]>([]);
     const [curTree, setCurTree] = useState<string>('');
     const [toast, setToast] = useState<string>('');
+    const [modals, setModals] = useState<Modals>(initModals);
 
     const windowResize = () => {
         console.log(window.innerWidth, window.innerHeight);
@@ -74,10 +72,10 @@ const AppContextProvider: React.FC = props => {
                 email,
                 server,
                 token,
-                modals,
                 treeInfo,
                 curTree,
                 toast,
+                modals,
 
                 setIsLoggedIn,
                 setWindowDimensions,
@@ -88,10 +86,10 @@ const AppContextProvider: React.FC = props => {
                 setEmail,
                 setServer,
                 setToken,
-                setModals,
                 setTreeInfo,
                 setCurTree,
                 setToast,
+                setModals
             }}>
             {props.children}
         </AppContext.Provider>

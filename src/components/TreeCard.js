@@ -33,7 +33,16 @@ const TreeCard = props => {
                         src={deleteIcon} />
                     <img className='tree-card__up' src={upIcon} />
                     <img className='tree-card__down' src={downIcon} />
-                    <img className='tree-card__edit' src={editIcon} />
+                    <img
+                        onClick={() => appCtx.setModals(prev => {
+                            console.log('prev', prev);
+                            prev.addTree.active = true;
+                            prev.addTree.type = 'edit';
+                            prev.addTree.treeId = treeId
+                            return {...prev}
+                        })} 
+                        className='tree-card__edit'
+                        src={editIcon} />
                 </div> 
             }
     </div>

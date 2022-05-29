@@ -1,11 +1,11 @@
 import './AddTree.scss';
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import AppContext from '../data/AppContext';
 import { IonButton, IonInput, IonItem, IonLabel, IonSearchbar, IonTextarea, IonToast } from '@ionic/react';
 import IconPicker from '../components/IconPicker';
-import { createTree } from '../utils/api-axios';
+import { createTree, editTree } from '../utils/api-axios';
 
-const AddTree: React.FC<{closeModal: () => void}> = (props) => {
+const AddTree: React.FC = () => {
     const [icon, setIcon] = useState<string>('/svg/tree.svg');
     const [showIconPicker, setShowIconPicker] = useState(false);
     const [treeName, setTreeName] = useState<string>('');
@@ -21,9 +21,24 @@ const AddTree: React.FC<{closeModal: () => void}> = (props) => {
     const createTheTree = () => {
         if (!treeName) return setMessage('Please enter a tree name');
 
-        createTree(appCtx.server, appCtx.token, icon, treeName, treeDesc || '', appCtx.setModals, setMessage)
+        appCtx.modals.addTree.type === 'insert' ?
+            createTree(appCtx.server, appCtx.token, icon, treeName, treeDesc || '', appCtx.setModals, setMessage, appCtx.setTreeInfo) :
+            editTree(appCtx.server, appCtx.token, icon, appCtx.modals.addTree.treeId, treeName, treeDesc || '', appCtx.setModals, setMessage, appCtx.setTreeInfo);
     }
    
+    const selectedTree = appCtx.modals.addTree.type === 'insert' ?
+        null :
+        appCtx.treeInfo.find(tree => tree.tree_id === appCtx.modals.addTree.treeId);
+
+    useEffect(() => {
+        console.log('selected tree', selectedTree);
+        if (!selectedTree) return;
+
+        setTreeName(selectedTree.tree_name)
+        setTreeDesc(selectedTree.tree_desc);
+
+    }, [appCtx.modals.addTree.treeId])
+
     return (
         <div className='add-tree'>
             <div className='add-tree__content'>
@@ -36,17 +51,23 @@ const AddTree: React.FC<{closeModal: () => void}> = (props) => {
                 <IonItem className='add-tree__input-tree-name'>
                     <IonLabel position='floating'>Tree Name</IonLabel>
                     <IonInput
+                        value={treeName}
                         onIonChange={e => setTreeName(e.detail!.value || '')}  
                         type='text' />
                 </IonItem>
                 <IonItem className='add-tree__input-tree-description'>
                     <IonLabel position='floating'>Tree Description (optional)</IonLabel>
-                    <IonTextarea onIonChange={e => setTreeDesc(e.detail!.value || '')}/>
+                    <IonTextarea
+                        value={treeDesc}
+                        onIonChange={e => setTreeDesc(e.detail!.value || '')}/>
                 </IonItem>
                 <IonButton 
                     onClick={createTheTree}
                     className='add-tree__button-create'>
-                    Create
+                    { appCtx.modals.addTree.type === 'insert' ?
+                        'Create' :
+                        'Submit'
+                    }
                 </IonButton>
                 {showIconPicker && 
                     <IconPicker 
@@ -55,7 +76,7 @@ const AddTree: React.FC<{closeModal: () => void}> = (props) => {
                 }
                 <IonButton 
                     onClick={() => appCtx.setModals(prev => {
-                        prev.addTree = false;
+                        prev.addTree.active = false;
                         return{...prev}
                     })}
                     className='add-tree__button-close'

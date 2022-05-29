@@ -7,15 +7,15 @@ const Modals: React.FC = () => {
 
     const closeTreeModal = () => {
         appCtx.setModals(prev => {
-            prev.addTree = false;
+            prev.addTree.active = false;
             return {...prev}
         })
     }
 
     return (
         <div className='modals'>
-            {appCtx.modals!.addTree && 
-                <AddTree closeModal={closeTreeModal}/>
+            {appCtx.modals.addTree.active! && 
+                <AddTree />
             }
         </div>
     )
