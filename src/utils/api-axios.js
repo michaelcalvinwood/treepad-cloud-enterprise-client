@@ -37,7 +37,7 @@ export const createTree = (server, token, icon, treeName, treeDesc, setModals, s
     .then(res => {
         setTreeInfo(res.data);
         setModals(prev => {
-            prev.addTree = false;
+            prev.addTree.active = false;
             return{...prev}
         })
     })
@@ -51,7 +51,7 @@ export const createTree = (server, token, icon, treeName, treeDesc, setModals, s
 
 export const editTree = (server, token, icon, treeId, treeName, treeDesc, setModals, setMessage, setTreeInfo) => {
     const request = {
-        url: `${server}/trees`,
+        url: `${server}/tree/${treeId}`,
         method: 'put',
         headers: {
             Authorization: `Bearer ${token}`
@@ -59,8 +59,7 @@ export const editTree = (server, token, icon, treeId, treeName, treeDesc, setMod
         data: {
             icon,
             treeName,
-            treeDesc,
-            treeId
+            treeDesc
         }
     }
 
@@ -68,7 +67,7 @@ export const editTree = (server, token, icon, treeId, treeName, treeDesc, setMod
     .then(res => {
         setTreeInfo(res.data);
         setModals(prev => {
-            prev.addTree = false;
+            prev.addTree.active = false;
             return{...prev}
         })
     })

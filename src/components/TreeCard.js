@@ -17,11 +17,11 @@ const TreeCard = props => {
         <div className={active ? 'tree-card tree-card--active' : 'tree-card'}>
             <div 
                 className='tree-card__click-area'>
-                { !actions &&
+                {/* { !actions && */}
                     <img 
                     className='tree-card__image'
                     src={`${server}${icon}`} /> 
-                }
+                {/* } */}
                 <h2 className='tree-card__title'>{treeName}</h2>
                 <p className='tree-card__subtitle'>{ownerName}</p>
             </div>

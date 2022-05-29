@@ -81,6 +81,7 @@ const Trees = () => {
                 <IonFab horizontal="end" vertical="bottom" slot="fixed">
                     <IonFabButton onClick={() => {
                         appCtx.setModals(prev => {
+                            console.log('Trees.js setModals prev', prev)
                             prev.addTree.active = true;
                             prev.addTree.type = 'insert';
                             return {...prev}

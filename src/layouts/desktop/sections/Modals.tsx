@@ -8,6 +8,8 @@ const Modals: React.FC = () => {
     const closeTreeModal = () => {
         appCtx.setModals(prev => {
             prev.addTree.active = false;
+            prev.addTree.treeId = '';
+            prev.addTree.type = 'insert';
             return {...prev}
         })
     }
