@@ -36,6 +36,7 @@ const AddTree: React.FC = () => {
 
         setTreeName(selectedTree.tree_name)
         setTreeDesc(selectedTree.tree_desc);
+        setIcon(selectedTree.icon);
 
     }, [appCtx.modals.addTree.treeId])
 

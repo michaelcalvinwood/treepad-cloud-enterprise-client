@@ -14,6 +14,8 @@
 
     transition: all $sectionCloseRate;
 
+    overflow: hidden;
+
     &--no-trees {
         left: 0;
         width: 100vw;

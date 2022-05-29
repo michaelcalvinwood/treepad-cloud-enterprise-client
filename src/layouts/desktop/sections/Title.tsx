@@ -32,7 +32,7 @@ const Title: React.FC = () => {
             <div className='title__icon-tray'>
                 {!appCtx.desktopSections.trees && <IconTray sectionHandler={openSection} name="trees" icon={treeIcon} />}
                 {!appCtx.desktopSections.branches && <IconTray sectionHandler={openSection} name="branches" icon={branchIcon} />}
-                {!appCtx.desktopSections.controls && <IconTray sectionHandler={openSection} name="controls" icon={controlsIcon} />}
+                {/* {!appCtx.desktopSections.controls && <IconTray sectionHandler={openSection} name="controls" icon={controlsIcon} />} */}
             </div>
             <div className="title__logo-container">
                 <img className='title__logo-image' src={treepadIcon} />

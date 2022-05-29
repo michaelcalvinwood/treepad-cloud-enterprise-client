@@ -73,7 +73,7 @@ const AppContext = React.createContext<{
     windowDimensions: {height: 0, width: 0},
     menuPage: 'trees',
     desktopSections: { 
-        controls: true,
+        controls: false,
         trees: true,
         branches: true,
         leaves: false

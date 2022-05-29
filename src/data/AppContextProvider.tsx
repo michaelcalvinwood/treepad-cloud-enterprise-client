@@ -9,7 +9,7 @@ const AppContextProvider: React.FC = props => {
     const [windowDimensions, setWindowDimensions] = useState<WindowDimensions>({height: window.innerHeight, width: window.innerWidth});
     const [menuPage, setMenuPage] = useState<string>('trees');
     const [desktopSections, setDesktopSections] = useState<DesktopSections>({
-        controls: true,
+        controls: false,
         trees: true,
         branches: true,
         leaves: false

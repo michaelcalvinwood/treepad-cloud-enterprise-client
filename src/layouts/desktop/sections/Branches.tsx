@@ -2,6 +2,7 @@ import './Branches.scss';
 import React, { useContext, useState, useEffect } from "react";
 import AppContext, {TreeInfo} from '../../../data/AppContext';
 
+import settingsIcon from '../../../assets/icons/settings.svg';
 import cloudIcon from '../../../assets/icons/cloud.svg';
 import closeIcon from '../../../assets/icons/close.svg';
 import { IonSearchbar } from '@ionic/react';
@@ -12,6 +13,8 @@ const Branches: React.FC = () => {
     const [search, setSearch] = useState<string>('');
 
     const appCtx = useContext(AppContext);
+
+    
     
     const branchesClassName = () => {
         let cname = 'branches';
@@ -43,19 +46,22 @@ const Branches: React.FC = () => {
 
     return (
         <div className={branchesClassName()}>
-            {/* <div className='trees__actions'>
+            <div className='trees__actions'>
                 <img 
                     className='trees__cloud' 
                     src={cloudIcon} />
                 <img
-                    onClick={() => setSettings(prev => !prev)} 
+                    onClick={() => appCtx.setDesktopSections(prev => {
+                        prev.controls = !prev.controls;
+                        return({...prev})
+                    })} 
                     className='trees__settings' 
                     src={settingsIcon} />
                 <img
-                    onClick={handleTreeClose} 
+                    onClick={handleBranchClose} 
                     className='trees__close' 
                     src={closeIcon} />
-            </div> */}
+            </div>
             <div className='branches__title-container'> 
                 <p className='branches__title'>{tree && tree.tree_name}</p>
             </div>
@@ -63,11 +69,7 @@ const Branches: React.FC = () => {
                 onIonChange={e => setSearch(e.detail!.value || '')}
                 className='branches__search' 
                 placeholder=''/>
-            <img className="branches__cloud" src={cloudIcon} />
-            <img
-                onClick={handleBranchClose} 
-                className='branches__close'
-                src={closeIcon} />
+           
         </div>
     )
 }
