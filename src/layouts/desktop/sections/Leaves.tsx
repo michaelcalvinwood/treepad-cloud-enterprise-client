@@ -4,12 +4,13 @@ import AppContext from '../../../data/AppContext';
 
 import fullScreenIcon from '../../../assets/icons/full-screen.svg';
 import normalScreenIcon from '../../../assets/icons/normal-screen.svg';
-
+import settingsIcon from '../../../assets/icons/settings.svg';
+import cloudIcon from '../../../assets/icons/cloud.svg';
 
 const Leaves: React.FC = () => {
     const appCtx = useContext(AppContext);
 
-    const branchesClassName = () => {
+    const leavesClassName = () => {
         let cname = 'leaves';
 
         let ammend = ' leaves';
@@ -23,10 +24,17 @@ const Leaves: React.FC = () => {
     }
 
     return (
-        <div className={branchesClassName()}>
+        <div className={leavesClassName()}>
+           <div className='leaves__actions'>
+                <img 
+                    className='leaves__cloud' 
+                    src={cloudIcon} />
+                <img
+                    className='leaves__settings' 
+                    src={settingsIcon} />
+               <img className='leaves__full-screen' src={fullScreenIcon} />
+            </div>
             
-
-            <img className='leaves__full-screen' src={fullScreenIcon} />
         </div>
         
     )

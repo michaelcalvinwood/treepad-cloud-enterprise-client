@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Branches from './sections/Branches';
 import Controls from './sections/Controls';
 import Leaves from './sections/Leaves';
 import Title from './sections/Title';
 import Trees from './sections/Trees';
 import Modals from './sections/Modals';
+import AppContext from '../../data/AppContext';
 
 const Desktop: React.FC = () => {
+    const appCtx = useContext(AppContext);
+    console.log('Desktop', appCtx.desktopSections);
     return (
         <div className='desktop'>
             <Title />

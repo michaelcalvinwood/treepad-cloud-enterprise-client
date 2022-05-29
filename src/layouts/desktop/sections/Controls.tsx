@@ -1,5 +1,5 @@
 import './Controls.scss';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import ControlIcon from '../../../components/ControlIcon';
 import AppContext from '../../../data/AppContext';
 
@@ -27,15 +27,22 @@ const Controls: React.FC = () => {
 
         if (!appCtx.desktopSections.trees) cname += ' controls--no-trees';
         if (!appCtx.desktopSections.controls) cname += ' controls--no-controls';
+
+        console.log(cname);
         return cname;
     }
 
     const handleControlsClose = () => {
-        appCtx.setDesktopSections(prev => {
-            prev.controls = false;
-            return ({...prev});
-        })
+        // appCtx.setDesktopSections(prev => {
+        //     prev.controls = false;
+        //     return ({...prev});
+        // })
     }
+
+   
+
+    console.log('contrls.tsx main');
+
     return (
         <div className={controlsClassName()}>
             <div className="controls__container">

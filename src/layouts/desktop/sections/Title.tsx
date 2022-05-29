@@ -19,11 +19,12 @@ const Title: React.FC = () => {
         return cname;
     }
 
-    const openSection = (section: 'trees' | 'controls' | 'branches') => {
+    const openSection = (section: 'trees' | 'branches') => {
+        const newVal = appCtx.desktopSections;
+        newVal[section] = true;
         appCtx.setDesktopSections(prev => {
-            prev[section] = true;
-            return({...prev})
-        })
+            return({...prev, [section]: true})
+        });
     }
 
     console.log('Title', appCtx.desktopSections)

@@ -42,7 +42,7 @@ const AppContextProvider: React.FC = props => {
         setIsLoggedIn(false);
         setMenuPage('trees');
         setDesktopSections({
-            controls: true,
+            controls: false,
             trees: true,
             branches: true,
             leaves: false
@@ -58,6 +58,10 @@ const AppContextProvider: React.FC = props => {
     useEffect(() => {
         if (treeInfo.length && !curTree) setCurTree(treeInfo[0].tree_id);
     },[treeInfo]);
+
+    useEffect(() => {
+        console.log('desktopSectionsHasChanged', desktopSections)
+    }, [desktopSections]);
 
     initContext();
     return(

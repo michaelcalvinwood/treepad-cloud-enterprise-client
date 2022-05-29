@@ -7,6 +7,7 @@ import cloudIcon from '../../../assets/icons/cloud.svg';
 import closeIcon from '../../../assets/icons/close.svg';
 import { IonSearchbar } from '@ionic/react';
 
+let controlToggle = false;
 
 const Branches: React.FC = () => {
     const [tree, setTree] = useState<TreeInfo | null>(null);
@@ -14,8 +15,6 @@ const Branches: React.FC = () => {
 
     const appCtx = useContext(AppContext);
 
-    
-    
     const branchesClassName = () => {
         let cname = 'branches';
 
@@ -27,10 +26,11 @@ const Branches: React.FC = () => {
     }
 
     const handleBranchClose = () => {
+        const newVal = appCtx.desktopSections;
+        newVal.branches = false;
         appCtx.setDesktopSections(prev => {
-            prev.branches = false;
-            return ({...prev});
-        })
+            return({...prev, branches: false})
+        });
     }
 
     useEffect(() => {
@@ -44,6 +44,7 @@ const Branches: React.FC = () => {
         } 
     })
 
+    console.log ('branches***')
     return (
         <div className={branchesClassName()}>
             <div className='trees__actions'>
@@ -51,10 +52,14 @@ const Branches: React.FC = () => {
                     className='trees__cloud' 
                     src={cloudIcon} />
                 <img
-                    onClick={() => appCtx.setDesktopSections(prev => {
-                        prev.controls = !prev.controls;
-                        return({...prev})
-                    })} 
+                    onClick={e => { 
+                        controlToggle = !controlToggle;
+                        appCtx.setDesktopSections(prev => {
+                            prev.controls = controlToggle;
+                            return ({...prev})
+                        });
+                        e.preventDefault();
+                    }} 
                     className='trees__settings' 
                     src={settingsIcon} />
                 <img

@@ -46,12 +46,29 @@
     }
 
     &__full-screen {
-        position: absolute;
-        top: 3px;
-        right: 3px;
+       
         height: .75rem;
         width: .75rem;
         cursor: pointer;
+    }
+    &__actions {
+        display: flex;
+        justify-content: space-between;
+        padding: .5rem;
+        box-sizing: border-box;
+    }
+    &__cloud, &__settings {
+        height: .75rem;
+        width: .75rem;
+        cursor: pointer;
+    }
+    &__close {
+        height: .55rem;
+        width: .55rem;
+        cursor: pointer;
+    }
+    &__settings {
+        filter: invert(40%) sepia(51%) saturate(2904%) hue-rotate(206deg) brightness(101%) contrast(101%);
     }
    
 }

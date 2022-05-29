@@ -58,6 +58,7 @@ const AppContext = React.createContext<{
     setWindowDimensions: (windowDimensions: WindowDimensions) => void,
     setMenuPage: (val: string) => void,
     setDesktopSections: (cb: (val: DesktopSections) => DesktopSections) => void,
+    // setDesktopSections: (val: DesktopSections) => void,
     setUserName: (val: string) => void;
     setUserId: (val: number) => void;
     setEmail: (val: string) => void;
