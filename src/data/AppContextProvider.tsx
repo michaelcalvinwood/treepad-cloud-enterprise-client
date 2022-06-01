@@ -55,8 +55,8 @@ const AppContextProvider: React.FC = props => {
       };
 
     const subscribeToTree = (treeId: string) => {
-        console.log('curTree', curTree, treeId);
-        socketSubribe.subscribeToResource(treeId, server, resourceId, setResourceId, resourceSocket, setResourceSocket);
+        console.log('curTree', curTree, treeId, token);
+        socketSubribe.subscribeToResource(treeId, server, resourceId, setResourceId, resourceSocket, setResourceSocket, token, setToast);
         
         setCurTree(treeId);
     }

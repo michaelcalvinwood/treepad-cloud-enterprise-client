@@ -1,24 +1,26 @@
 import { io } from 'socket.io-client';
 
 
-const setSocketEventHandlers = s => {
+const setSocketEventHandlers = (s, setToast) => {
     s.on('hello', data => alert(data + ' yoyo'));
+
+    s.on('toastMessage', message => {
+        console.log('toast message', message);
+        setToast(message)}
+    );
 }
 
-export const subscribeToResource = (newResourceId, resourceServer, resourceId, setResourceId, resourceSocket, setResourceSocket) => {
+export const subscribeToResource = async (newResourceId, resourceServer, resourceId, setResourceId, resourceSocket, setResourceSocket, token, setToast) => {
     if (newResourceId === resourceId) return;
 
-    if (resourceSocket) {
-        resourceSocket.emit('resourceSubscribe', newResourceId);
-        setResourceId(newResourceId);
-        return;
+    if (!resourceSocket) {
+        const connection = resourceServer;
+        resourceSocket = await io(connection);
+        setSocketEventHandlers(resourceSocket, setToast);
+        setResourceSocket(resourceSocket);
     }
 
-    const connection = resourceServer;
-    console.log(`trying to connect to ${connection}`);
-    const s = io(connection);
-    setSocketEventHandlers(s);
-    setResourceSocket(s);
+    resourceSocket.emit('resourceSubscribe', newResourceId, token);
     setResourceId(newResourceId);
-    console.log(`Connected to ${connection}`);
+
 }
