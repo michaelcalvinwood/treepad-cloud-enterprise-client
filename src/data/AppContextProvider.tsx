@@ -41,11 +41,13 @@ const AppContextProvider: React.FC = props => {
     const [token, setToken] = useState<string>('');
     const [treeInfo, setTreeInfo] = useState<TreeInfo[]>([]);
     const [curTree, setCurTree] = useState<string>('');
+    const [curBranch, setCurBranch] = useState<string>('');
+    const [branchOrder, setBranchOrder] = useState<string>('');
     const [toast, setToast] = useState<string>('');
     const [modals, setModals] = useState<Modals>(initModals);
     const [resourceSocket, setResourceSocket] = useState<any>(null);
     const [resourceId, setResourceId] = useState<string>('');
-
+    
     const windowResize = () => {
         console.log(window.innerWidth, window.innerHeight);
         setWindowDimensions(prev => {
@@ -55,9 +57,20 @@ const AppContextProvider: React.FC = props => {
       };
 
     const subscribeToTree = (treeId: string) => {
-        console.log('curTree', curTree, treeId, token);
-        socketSubribe.subscribeToResource(treeId, server, resourceId, setResourceId, resourceSocket, setResourceSocket, token, setToast);
-        
+        const info = {
+            newResourceId: treeId,
+            server,
+            resourceId,
+            setResourceId,
+            resourceSocket,
+            setResourceSocket,
+            token,
+            setToast,
+            setBranchOrder,
+            setCurBranch
+        }
+
+        socketSubribe.subscribeToResource(info);        
         setCurTree(treeId);
     }
     
