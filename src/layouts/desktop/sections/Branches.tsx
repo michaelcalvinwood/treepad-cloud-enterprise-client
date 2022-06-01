@@ -34,17 +34,13 @@ const Branches: React.FC = () => {
     }
 
     useEffect(() => {
-        console.log('length', appCtx.treeInfo.length);
-        console.log('curTree', appCtx.curTree);
         if (appCtx.treeInfo.length && appCtx.curTree) {
             const curTree = appCtx.treeInfo.find(tree => tree.tree_id === appCtx.curTree);
-            console.log('curTree', curTree);
-            console.log(curTree?.icon);
+       
             if (curTree) setTree(curTree);
         } 
     })
 
-    console.log ('branches***')
     return (
         <div className={branchesClassName()}>
             <div className='trees__actions'>

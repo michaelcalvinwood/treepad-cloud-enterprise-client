@@ -10,12 +10,12 @@ import AppContext from '../data/AppContext';
 
 const TreeCard = props => {
     const {treeName, treeId, ownerName, server, icon, active, actions} = props;
-
     const appCtx = useContext(AppContext);
 
     return (
         <div className={active ? 'tree-card tree-card--active' : 'tree-card'}>
             <div 
+                onClick={() => appCtx.subscribeToTree(treeId)}
                 className='tree-card__click-area'>
                 {/* { !actions && */}
                     <img 

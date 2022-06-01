@@ -65,7 +65,7 @@ const AppContext = React.createContext<{
     setServer: (val: string) => void;
     setToken: (val: string) => void;
     setTreeInfo: (val: TreeInfo[]) => void;
-    setCurTree: (val: string) => void;
+    subscribeToTree: (val: string) => void;
     setToast: (val: string) => void;
     setModals: (cb: (val: Modals) => Modals) => void;
     
@@ -99,7 +99,7 @@ const AppContext = React.createContext<{
     setServer: () => {},
     setToken: () => {},
     setTreeInfo: () => {},
-    setCurTree: () => {},
+    subscribeToTree: () => {},
     setToast: () => {},
     setModals: () => {}
 });

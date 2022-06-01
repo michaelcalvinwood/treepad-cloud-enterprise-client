@@ -1,6 +1,26 @@
 import React, { useEffect, useState } from "react";
 import AppContext, { WindowDimensions, DesktopSections, Modals, TreeInfo, initModals } from "./AppContext";
 import { Storage } from '@capacitor/storage';
+import * as socketSubribe from '../utils/resourceSubscription';
+
+interface ServerToClientEvents {
+    noArg: () => void;
+    basicEmit: (a: number, b: string, c: Buffer) => void;
+    withAck: (d: string, callback: (e: number) => void) => void;
+  }
+  
+  interface ClientToServerEvents {
+    hello: () => void;
+  }
+  
+  interface InterServerEvents {
+    ping: () => void;
+  }
+  
+  interface SocketData {
+    name: string;
+    age: number;
+  }
 
 let staticVal: boolean = false;
 
@@ -23,6 +43,8 @@ const AppContextProvider: React.FC = props => {
     const [curTree, setCurTree] = useState<string>('');
     const [toast, setToast] = useState<string>('');
     const [modals, setModals] = useState<Modals>(initModals);
+    const [resourceSocket, setResourceSocket] = useState<any>(null);
+    const [resourceId, setResourceId] = useState<string>('');
 
     const windowResize = () => {
         console.log(window.innerWidth, window.innerHeight);
@@ -31,11 +53,19 @@ const AppContextProvider: React.FC = props => {
             return {...prev};
         })
       };
+
+    const subscribeToTree = (treeId: string) => {
+        console.log('curTree', curTree, treeId);
+        socketSubribe.subscribeToResource(treeId, server, resourceId, setResourceId, resourceSocket, setResourceSocket);
+        
+        setCurTree(treeId);
+    }
     
     const initContext = async () => {
         if (staticVal) return;
         staticVal = true;
 
+        console.log('init context');
         windowResize();
         window.addEventListener('resize', windowResize);
         console.log(windowDimensions);
@@ -47,6 +77,7 @@ const AppContextProvider: React.FC = props => {
             branches: true,
             leaves: false
         })
+        setCurTree('');
         // const authorizationData = await Storage.get({key: 'authorization'});
         // const authorizationInfo = authorizationData.value && authorizationData.value.length ?
         //     JSON.parse(authorizationData.value) :
@@ -56,7 +87,7 @@ const AppContextProvider: React.FC = props => {
     };
 
     useEffect(() => {
-        if (treeInfo.length && !curTree) setCurTree(treeInfo[0].tree_id);
+        if (treeInfo.length && !curTree) subscribeToTree(treeInfo[0].tree_id);
     },[treeInfo]);
 
     useEffect(() => {
@@ -91,7 +122,7 @@ const AppContextProvider: React.FC = props => {
                 setServer,
                 setToken,
                 setTreeInfo,
-                setCurTree,
+                subscribeToTree,
                 setToast,
                 setModals
             }}>
