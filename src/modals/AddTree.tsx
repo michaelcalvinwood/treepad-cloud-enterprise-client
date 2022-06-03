@@ -22,24 +22,10 @@ const AddTree: React.FC = () => {
         if (!treeName) return setMessage('Please enter a tree name');
 
         appCtx.modals.addTree.type === 'insert' ?
-            createTree(appCtx.server, appCtx.token, icon, treeName, treeDesc || '', appCtx.setModals, setMessage, appCtx.setTreeInfo) :
-            editTree(appCtx.server, appCtx.token, icon, appCtx.modals.addTree.treeId, treeName, treeDesc || '', appCtx.setModals, setMessage, appCtx.setTreeInfo);
+            createTree(appCtx.server, appCtx.token, icon, treeName, treeDesc || '', appCtx.setModals, setMessage, appCtx.setTrees) :
+            editTree(appCtx.server, appCtx.token, icon, appCtx.modals.addTree.treeId, treeName, treeDesc || '', appCtx.setModals, setMessage, appCtx.setTrees);
     }
-   
-    const selectedTree = appCtx.modals.addTree.type === 'insert' ?
-        null :
-        appCtx.treeInfo.find(tree => tree.tree_id === appCtx.modals.addTree.treeId);
-
-    useEffect(() => {
-        console.log('selected tree', selectedTree);
-        if (!selectedTree) return;
-
-        setTreeName(selectedTree.tree_name)
-        setTreeDesc(selectedTree.tree_desc);
-        setIcon(selectedTree.icon);
-
-    }, [appCtx.modals.addTree.treeId])
-
+       
     return (
         <div className='add-tree'>
             <div className='add-tree__content'>

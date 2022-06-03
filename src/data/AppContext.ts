@@ -1,35 +1,6 @@
 import React from "react";
+import * as appInterface from "./AppInterfaces";
 
-export interface WindowDimensions {
-    height: number,
-    width: number
-}
-
-export interface DesktopSections {
-    controls: boolean,
-    trees: boolean,
-    branches: boolean,
-    leaves: boolean
-}
-
-export interface TreeInfo {
-    tree_id: string,
-    icon: string,
-    color: string,
-    tree_name: string,
-    tree_desc: string,
-    owner_name: string,
-    updated_ts: number,
-    type: string
-}
-
-export interface Modals {
-    addTree: {
-        active: boolean,
-        type: string,
-        treeId: string,
-    }
-}
 
 export const initModals = {
     addTree: {
@@ -40,68 +11,79 @@ export const initModals = {
 }
 
 const AppContext = React.createContext<{
-    isLoggedIn: boolean,
-    windowDimensions: WindowDimensions,
-    menuPage: string,
-    desktopSections: DesktopSections,
-    userName: string,
-    userId: number,
+    branch: string,
+    branches: appInterface.Branch[],
+    desktopSections: appInterface.DesktopSections,
     email: string,
+    isLoggedIn: boolean,
+    menuPage: string,
+    modals: appInterface.Modals,
+    resourceSocket: any,
     server: string,
-    token: string,
-    treeInfo: TreeInfo[],
-    curTree: string,
     toast: string,
-    modals: Modals,
+    token: string,
+    tree: appInterface.Tree | null,
+    trees: appInterface.Tree[],
+    userId: number,
+    userName: string,
+    windowDimensions: appInterface.WindowDimensions,
     
-    setIsLoggedIn: (value: boolean) => void,
-    setWindowDimensions: (windowDimensions: WindowDimensions) => void,
-    setMenuPage: (val: string) => void,
-    setDesktopSections: (cb: (val: DesktopSections) => DesktopSections) => void,
-    // setDesktopSections: (val: DesktopSections) => void,
-    setUserName: (val: string) => void;
-    setUserId: (val: number) => void;
+    setBranch: (val: string) => void;
+    setBranches: (val: appInterface.Branch[]) => void;
+    setDesktopSections: (cb: (val: appInterface.DesktopSections) => appInterface.DesktopSections) => void,
     setEmail: (val: string) => void;
+    setIsLoggedIn: (value: boolean) => void,
+    setMenuPage: (val: string) => void,
+    setModals: (cb: (val: appInterface.Modals) => appInterface.Modals) => void;
+    setResourceSocket: (val: any) => void;
     setServer: (val: string) => void;
     setToken: (val: string) => void;
-    setTreeInfo: (val: TreeInfo[]) => void;
-    subscribeToTree: (val: string) => void;
+    setTrees: (val: appInterface.Tree[]) => void;
     setToast: (val: string) => void;
-    setModals: (cb: (val: Modals) => Modals) => void;
+    setUserId: (val: number) => void;
+    setUserName: (val: string) => void;
+    setWindowDimensions: (windowDimensions: appInterface.WindowDimensions) => void,
+    subscribeToTree: (val: appInterface.Tree) => void;
     
 }>({
-    isLoggedIn: false,
-    windowDimensions: {height: 0, width: 0},
-    menuPage: 'trees',
+    branch: '',
+    branches: [],
     desktopSections: { 
         controls: false,
         trees: true,
         branches: true,
         leaves: false
     },
-    userName: '',
-    userId: -1,
     email: '',
-    server: '',
-    token: '',
-    treeInfo: [],
-    curTree: "",
-    toast: '',
+    isLoggedIn: false,
+    menuPage: 'trees',
     modals: initModals,
+    server: '',
+    resourceSocket: null,
+    token: '',
+    trees: [],
+    tree: null,
+    toast: '',
+    userId: -1,
+    userName: '',
+    windowDimensions: {height: 0, width: 0},
 
+    setBranch: () => {},
+    setBranches: () => {},
+    setEmail: () => {},
     setIsLoggedIn: () => {},
-    setWindowDimensions: () => {},
+    setResourceSocket: () => {},
     setMenuPage: () => {},
     setDesktopSections: () => {},
     setUserName: () => {},
     setUserId: () => {},
-    setEmail: () => {},
     setServer: () => {},
     setToken: () => {},
-    setTreeInfo: () => {},
-    subscribeToTree: () => {},
+    setTrees: () => {},
     setToast: () => {},
-    setModals: () => {}
+    setModals: () => {},
+    setWindowDimensions: () => {},
+    subscribeToTree: () => {},
 });
 
 export default AppContext;

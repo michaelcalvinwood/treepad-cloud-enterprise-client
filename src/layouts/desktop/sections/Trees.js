@@ -27,16 +27,14 @@ const Trees = () => {
             return ({...prev});
         })
     }
-
-    console.log('trees', appCtx.desktopSections);
-
+    
     const treesClassName = () => {
         if (appCtx.desktopSections.trees) return 'trees';
         else return 'trees trees--inactive'
     }
 
     useEffect(()=>{
-       getTrees(appCtx.server, appCtx.token, appCtx.setTreeInfo)
+       getTrees(appCtx.server, appCtx.token, appCtx.setTrees)
     }, []);
 
     return (
@@ -62,16 +60,16 @@ const Trees = () => {
                     className='trees__search ion-text-left' 
                     placeholder=''
                     />
-                {appCtx.treeInfo.map(tree => {
+                {appCtx.trees.map(tree => {
                     return (
                         <TreeCard 
-                            key={tree.tree_id}
+                            key={tree.treeId}
                             server={appCtx.server}
                             icon={tree.icon}
-                            treeName={tree.tree_name}
-                            treeId={tree.tree_id}
-                            ownerName={tree.owner_name}
-                            active={tree.tree_id === appCtx.curTree}
+                            treeName={tree.treeName}
+                            treeId={tree.treeId}
+                            ownerName={tree.ownerName}
+                            active={tree.treeId === appCtx.curTree}
                             actions={settings}
                         />
                     )

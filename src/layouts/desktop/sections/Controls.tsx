@@ -28,7 +28,6 @@ const Controls: React.FC = () => {
         if (!appCtx.desktopSections.trees) cname += ' controls--no-trees';
         if (!appCtx.desktopSections.controls) cname += ' controls--no-controls';
 
-        console.log(cname);
         return cname;
     }
 
@@ -39,9 +38,6 @@ const Controls: React.FC = () => {
         // })
     }
 
-   
-
-    console.log('contrls.tsx main');
 
     return (
         <div className={controlsClassName()}>

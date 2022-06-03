@@ -12,7 +12,22 @@ export const getTrees = (server, token, setTreeInfo) => {
     axios(request)
     .then(res => {
         console.log('Get trees data', res.data);
-        setTreeInfo(res.data)
+        const trees = res.data.map(tree => {
+            let filtered = {};
+            filtered.color = tree.color;
+            filtered.icon = tree.icon;
+            filtered.ownerName = tree.owner_name;
+            filtered.treeDesc = tree.tree_desc;
+            filtered.treeId = tree.tree_id;
+            filtered.treeName = tree.tree_name;
+            filtered.type = tree.type;
+            filtered.updatedTs = tree.updated_ts;
+
+            return filtered;
+        });
+
+
+        setTreeInfo(trees)
     })
     .catch(err => {
         console.log('Get trees db error', err);
@@ -92,7 +107,7 @@ export const deleteTree = (server, token, treeId, setTreeInfo, setToast) => {
     axios(request)
     .then(res => {
         setTreeInfo(prev => {
-            const newTreeList = prev.filter(tree => tree.tree_id !== treeId);
+            const newTreeList = prev.filter(tree => tree.treeId !== treeId);
             return ([...newTreeList]);
         });
     })
