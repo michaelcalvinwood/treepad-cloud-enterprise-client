@@ -8,6 +8,9 @@ import zxcvbn from 'zxcvbn';
 import treepadIcon from '../assets/icons/treepadcloud-icon.svg';
 import AppContext from '../data/AppContext';
 
+import * as socketIo from '../utils/api-socket-io';
+import { UserInfo } from '../data/AppInterfaces';
+
 // TODO: Add confirmation password to registration and only send if the two passwords match
 
 const LoginSignUp: React.FC = () => {
@@ -92,13 +95,19 @@ const LoginSignUp: React.FC = () => {
             console.log(userName, userId, email, server, token);
             
             // Note: userId is number
-            appCtx.setUserName(userName);
-            appCtx.setUserId(userId);
-            appCtx.setEmail(email);
-            appCtx.setServer(server);
-            appCtx.setToken(token)
+            // Note: server is the name of the resource server for the current user
+            
+            const info: UserInfo = {
+                isLoggedIn: true,
+                email: email,
+                id: Number(userId),
+                userName: userName,
+                server: server,
+                resourceSocket: socketIo.getResourceSocket(server),
+                token: token
+            }
 
-            appCtx.setIsLoggedIn(true);
+            appCtx.setUserInfo(info);
             
             return;
 

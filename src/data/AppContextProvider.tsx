@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import AppContext, {initModals} from "./AppContext";
+import AppContext, {initModals, initUserInfo} from "./AppContext";
 import { Storage } from '@capacitor/storage';
 import * as socketIo from '../utils/api-socket-io';
 import * as appInterface from "./AppInterfaces";
@@ -26,6 +26,7 @@ interface ServerToClientEvents {
 let staticVal: boolean = false;
 
 const AppContextProvider: React.FC = props => {
+    const [activeSection, setActiveSection] = useState<string>('trees');
     const [branch, setBranch] = useState<string>('');
     const [branches, setBranches] = useState<appInterface.Branch[]>([]);
     const [desktopSections, setDesktopSections] = useState<appInterface.DesktopSections>({
@@ -34,19 +35,12 @@ const AppContextProvider: React.FC = props => {
         branches: true,
         leaves: false
     })
-    const [email, setEmail] = useState<string>('');
-    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
     const [menuPage, setMenuPage] = useState<string>('trees');
-    const [server, setServer] = useState<string>('');
-    const [token, setToken] = useState<string>('');
     const [trees, setTrees] = useState<appInterface.Tree[]>([]);
     const [tree, setTree] = useState<appInterface.Tree | null>(null);
     const [toast, setToast] = useState<string>('');
     const [modals, setModals] = useState<appInterface.Modals>(initModals);
-    const [resourceSocket, setResourceSocket] = useState<any>(null);
-    const [resourceId, setResourceId] = useState<string>('');
-    const [userId, setUserId] = useState<number>(-1);
-    const [userName, setUserName] = useState<string>('');
+    const [userInfo, setUserInfo] = useState<appInterface.UserInfo>(initUserInfo);
     const [windowDimensions, setWindowDimensions] = useState<appInterface.WindowDimensions>({height: window.innerHeight, width: window.innerWidth});
     
     const windowResize = () => {
@@ -60,14 +54,9 @@ const AppContextProvider: React.FC = props => {
     const subscribeToTree = (subTree: appInterface.Tree) => {
         console.log('subscribeToTree', subTree);
         const info = {
-            newResourceId: subTree.treeId,
-            server,
-            resourceId,
-            resourceSocket,
-            token,
             branch,
-            setResourceId,
-            setResourceSocket,
+            resourceId: subTree.treeId,
+            userInfo,
             setToast,
             setBranches,
             setBranch
@@ -83,7 +72,7 @@ const AppContextProvider: React.FC = props => {
 
         windowResize();
         window.addEventListener('resize', windowResize);
-        setIsLoggedIn(false);
+        setUserInfo(initUserInfo);
         setMenuPage('trees');
         setDesktopSections({
             controls: false,
@@ -113,37 +102,27 @@ const AppContextProvider: React.FC = props => {
     return(
         <AppContext.Provider
             value = {{
+                activeSection,
                 branch,
                 branches,
                 desktopSections,
-                email,
-                isLoggedIn,
                 menuPage,
                 modals,
-                resourceSocket,
-                server,
                 toast,
-                token,
                 tree,
                 trees,
-                userName,
-                userId,
+                userInfo,
                 windowDimensions,
                 
+                setActiveSection,
                 setBranch,
                 setBranches,
                 setDesktopSections,
-                setEmail,
-                setIsLoggedIn,
                 setMenuPage,
                 setModals,
-                setResourceSocket,
-                setServer,
                 setToast,
-                setToken,
                 setTrees,
-                setUserId,
-                setUserName,
+                setUserInfo,
                 setWindowDimensions,
                 subscribeToTree,
                 

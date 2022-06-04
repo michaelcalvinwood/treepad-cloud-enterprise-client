@@ -4,6 +4,8 @@ import { IonApp, IonToast, setupIonicReact } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import AppContext from './data/AppContext';
 
+import * as branchUtil from './utils/branch-util';
+
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
 
@@ -44,13 +46,36 @@ const App: React.FC = () => {
 
   const appCtx = useContext(AppContext);
 
-  // console.log('App', appCtx.windowDimensions);
+  const captureKeys = (e: any) => {
+    const {key, altKey, ctrlKey, shiftKey, code} = e;
+    const {tree, activeSection, setToast, branches, setBranches, userInfo} = appCtx;
+    
+    console.log(key);
+
+    switch(key) {
+      case 'Enter':
+        if (activeSection === 'branches') {
+          branchUtil.addSibling(tree, branches, setBranches, userInfo.resourceSocket);
+        }
+        break;
+    }
+
+  }
+  
+  useEffect(() => {
+    console.log('App useEffect'); 
+
+    document.addEventListener('keyup', captureKeys);
+
+    return () => {document.removeEventListener('keyup', captureKeys)};
+  
+  }, [])
 
   return (
     <>
-        {appCtx.isLoggedIn && appCtx.windowDimensions.width < 786 && <Mobile />}
-        {appCtx.isLoggedIn && appCtx.windowDimensions.width >= 786 && <Desktop />}
-        {!appCtx.isLoggedIn && <LoginSignUp />}
+        {appCtx.userInfo.isLoggedIn && appCtx.windowDimensions.width < 786 && <Mobile />}
+        {appCtx.userInfo.isLoggedIn && appCtx.windowDimensions.width >= 786 && <Desktop />}
+        {!appCtx.userInfo.isLoggedIn && <LoginSignUp />}
         <IonToast
                 position='middle'
                 color="secondary"

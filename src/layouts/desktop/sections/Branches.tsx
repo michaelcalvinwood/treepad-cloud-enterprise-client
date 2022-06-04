@@ -87,7 +87,11 @@ const Branches: React.FC = () => {
                             key={branch.id+branch.name} 
                             id={branch.id} 
                             name={branch.name ? branch.name : ''} 
-                            focused={appCtx.branch && appCtx.branch === branch.id ? true : false}
+                            focused={appCtx.branch && 
+                                appCtx.branch === branch.id &&
+                                appCtx.activeSection === 'branches' ? 
+                                true : 
+                                false}
                             />
                     })
                 }

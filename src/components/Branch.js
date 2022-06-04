@@ -28,6 +28,8 @@ const Branch = props => {
 
     const setFocus = branchId => {
         appCtx.setBranch(branchId);
+        if (appCtx.activeSection !== 'branches') 
+            appCtx.setActiveSection('branches');
     }
 
     useEffect(() => {

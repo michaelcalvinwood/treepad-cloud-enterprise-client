@@ -1,3 +1,20 @@
+
+export interface UserInfo {
+    isLoggedIn: boolean,
+    email: string,
+    id: number,
+    userName: string,
+    server: string,
+    resourceSocket: any,
+    token: any
+}
+
+export interface ResourceSocket {
+    owner: number,
+    server: string,
+    connection: any
+}
+
 export interface WindowDimensions {
     height: number,
     width: number
@@ -24,6 +41,9 @@ export interface Tree {
 export interface Branch {
     id: string,
     name: string | null,
+    owner: number,
+    level: number,
+    open: boolean,
     nameChecked: boolean
 }
 

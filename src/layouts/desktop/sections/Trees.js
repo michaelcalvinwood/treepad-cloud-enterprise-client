@@ -19,6 +19,8 @@ const Trees = () => {
     const [settings, setSettings] = useState(false);
     
     const appCtx = useContext(AppContext);
+    const { setTrees } = appCtx;
+    const { server, token } = appCtx.userInfo;
     
 
     const handleTreeClose = () => {
@@ -34,7 +36,7 @@ const Trees = () => {
     }
 
     useEffect(()=>{
-       getTrees(appCtx.server, appCtx.token, appCtx.setTrees)
+       getTrees(server, token, setTrees)
     }, []);
 
     return (
@@ -64,7 +66,7 @@ const Trees = () => {
                     return (
                         <TreeCard 
                             key={tree.treeId}
-                            server={appCtx.server}
+                            server={server}
                             icon={tree.icon}
                             treeName={tree.treeName}
                             treeId={tree.treeId}

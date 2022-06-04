@@ -2,7 +2,8 @@ import { io } from 'socket.io-client';
 import * as branchUtil from '../utils/branch-util';
 
 const setSocketEventHandlers = (info) => {
-    const s = info.resourceSocket;
+    // TODO: allow for multiple resourceSockets.
+    const s = info.resourceSocket[0];
 
     s.on('toastMessage', message => {
         console.log('toast message', message);
@@ -13,9 +14,12 @@ const setSocketEventHandlers = (info) => {
         console.log(branchOrder, typeof branchOrder);
         let branches = [];
         JSON.parse(branchOrder).forEach((branch, i) => {
+            const parts = branch.split('_');
             branches[i] = [];
-            branches[i].id = branch;
-            branches[i].name = sessionStorage.getItem(branch);
+            branches[i].owner = Number(parts[1]);
+            branches[i].id = `${parts[0]}_${parts[1]}_${parts[2]}`;
+            branches[i].level = Number(parts[3][0]);
+            branches[i].open = parts[3][1] === 'o' ? true : false;
         })
         info.setBranches(branches);
         if (!info.branch) info.setBranch(branches[0]);
@@ -40,20 +44,16 @@ const setSocketEventHandlers = (info) => {
     }) 
 }
 
+export const getResourceSocket = server => io(server);
+
 export const subscribeToResource = info => {
-    console.log('subscribeToResourse', info.newResourceId);
-    if (info.newResourceId === info.resourceId) return;
+    console.log('subscribeToResource userInfo', info.userInfo)
+    const { resourceId } = info;
+    const { resourceSocket, token } = info.userInfo;
+    console.log('subscribeToResourse', resourceId);
+    console.log('api-socket-io subscribeToResource resourceSocket', resourceSocket);
 
-    if (!info.resourceSocket) {
-        const connection = info.server;
-        info.resourceSocket = io(connection);
-        setSocketEventHandlers(info);
-        info.setResourceSocket(info.resourceSocket);
-    }
-    console.log('api-socket-io subscribeToResource resourceSocket', info.resourceSocket);
-
-    info.resourceSocket.emit('resourceSubscribe', info.newResourceId, info.token);
-    info.setResourceId(info.newResourceId);
+    resourceSocket.emit('resourceSubscribe', resourceId, token);
 }
 
 export const getBranchNames = info => {

@@ -14,6 +14,8 @@ const AddTree: React.FC = () => {
 
     const appCtx = useContext(AppContext);
 
+    const {server, token} = appCtx.userInfo;
+
     const setIconName = (name: string) => {
         setIcon(name);
     }
@@ -21,9 +23,11 @@ const AddTree: React.FC = () => {
     const createTheTree = () => {
         if (!treeName) return setMessage('Please enter a tree name');
 
+        
+
         appCtx.modals.addTree.type === 'insert' ?
-            createTree(appCtx.server, appCtx.token, icon, treeName, treeDesc || '', appCtx.setModals, setMessage, appCtx.setTrees) :
-            editTree(appCtx.server, appCtx.token, icon, appCtx.modals.addTree.treeId, treeName, treeDesc || '', appCtx.setModals, setMessage, appCtx.setTrees);
+            createTree(server, token, icon, treeName, treeDesc || '', appCtx.setModals, setMessage, appCtx.setTrees) :
+            editTree(server, token, icon, appCtx.modals.addTree.treeId, treeName, treeDesc || '', appCtx.setModals, setMessage, appCtx.setTrees);
     }
        
     return (
@@ -32,7 +36,7 @@ const AddTree: React.FC = () => {
                 <img 
                     onClick={() => setShowIconPicker(prev => !prev)}
                     className='add-tree__icon' 
-                    src={appCtx.server + icon} 
+                    src={server + icon} 
                 />
                 <p className='add-tree__instructions'>click to change</p>
                 <IonItem className='add-tree__input-tree-name'>
