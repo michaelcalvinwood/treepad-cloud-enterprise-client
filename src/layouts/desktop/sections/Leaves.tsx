@@ -1,14 +1,24 @@
 import './Leaves.scss';
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import AppContext from '../../../data/AppContext';
 
 import fullScreenIcon from '../../../assets/icons/full-screen.svg';
 import normalScreenIcon from '../../../assets/icons/normal-screen.svg';
 import settingsIcon from '../../../assets/icons/settings.svg';
 import cloudIcon from '../../../assets/icons/cloud.svg';
+import * as socketIo from '../../../utils/api-socket-io';
+import ModuleDefault from '../../../modules/ModuleDefault';
+import * as dbUtil from '../../../utils/debug-util';
+
+
 
 const Leaves: React.FC = () => {
+    //TODO: add a timestamp and every hour check to see if there are new modules.    
+
     const appCtx = useContext(AppContext);
+    const { module, modules } = appCtx;
+
+    const fn = 'Leaves.tsx ';
 
     const leavesClassName = () => {
         let cname = 'leaves';
@@ -23,9 +33,21 @@ const Leaves: React.FC = () => {
         return cname;
     }
 
+    useEffect(() => {
+        
+        if (modules.length === 0 && appCtx.userInfo.resourceSocket) {
+            socketIo.getAllModules(appCtx);
+        } 
+    }, [] )
+
+    dbUtil.eventDebug('getAllModules', {
+        p: fn,
+        modules
+    })
+
     return (
         <div className={leavesClassName()}>
-           <div className='leaves__actions'>
+            <div className='leaves__actions'>
                 <img 
                     className='leaves__cloud' 
                     src={cloudIcon} />
@@ -34,7 +56,13 @@ const Leaves: React.FC = () => {
                     src={settingsIcon} />
                <img className='leaves__full-screen' src={fullScreenIcon} />
             </div>
+            <div 
+                className='leaves__module' >
+                {!module && <ModuleDefault />}
+            </div>
             
+
+
         </div>
         
     )

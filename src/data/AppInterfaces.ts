@@ -9,6 +9,11 @@ export interface UserInfo {
     token: any
 }
 
+export interface Module {
+    name: string,
+    icon: string,
+}
+
 export interface ResourceSocket {
     owner: number,
     server: string,

@@ -28,6 +28,8 @@ const AppContext = React.createContext<{
     desktopSections: appInterface.DesktopSections,
     menuPage: string,
     modals: appInterface.Modals,
+    module: appInterface.Module | null,
+    modules: appInterface.Module[],
     toast: string,
     tree: appInterface.Tree | null,
     trees: appInterface.Tree[],
@@ -41,14 +43,14 @@ const AppContext = React.createContext<{
     setDesktopSections: (cb: (val: appInterface.DesktopSections) => appInterface.DesktopSections) => void,
     setMenuPage: (val: string) => void,
     setModals: (cb: (val: appInterface.Modals) => appInterface.Modals) => void;
+    setModule: (module: appInterface.Module) => void;
+    setModules: (modules: appInterface.Module[]) => void;
     setTrees: (val: appInterface.Tree[]) => void;
     setToast: (val: string) => void;
     setUserInfo: (val: appInterface.UserInfo) => void;
     setWindowDimensions: (windowDimensions: appInterface.WindowDimensions) => void,
     subscribeToTree: (val: appInterface.Tree) => void;
     setResourceSocketEventHandlers: (val: any) => void;
-    
-    
 }>({
     activeSection: 'trees',
     branch: null,
@@ -61,6 +63,8 @@ const AppContext = React.createContext<{
     },
     menuPage: 'trees',
     modals: initModals,
+    module: null,
+    modules: [],
     trees: [],
     tree: null,
     toast: '',
@@ -74,6 +78,8 @@ const AppContext = React.createContext<{
     setDesktopSections: () => {},
     setMenuPage: () => {},
     setModals: () => {},
+    setModule: () => {},
+    setModules: () => {},
     setTrees: () => {},
     setToast: () => {},
     setUserInfo: () => {},

@@ -78,13 +78,13 @@ const Branches: React.FC = () => {
     },
     [appCtx.branches])
 
-    const dbMessage = {
+    
+    dbUtil.eventDebug('showSelectedBranch', {
         process: 'Branches.tsx',
         appCtx,
+        branch: appCtx.branch,
         branchStatus: branchStatus
-    }
-    
-    dbUtil.eventDebug('renderBranches', dbMessage);
+    });
 
     return (
         <div className={branchesClassName()}>

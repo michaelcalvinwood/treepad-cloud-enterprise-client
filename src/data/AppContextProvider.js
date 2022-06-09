@@ -21,10 +21,12 @@ const AppContextProvider = props => {
         leaves: false
     })
     const [menuPage, setMenuPage] = useState('trees');
+    const [modals, setModals] = useState(initModals);
+    const [module, setModule] = useState(null);
+    const [modules, setModules] = useState([]);
     const [trees, setTrees] = useState([]);
     const [tree, setTree] = useState(null);
     const [toast, setToast] = useState('');
-    const [modals, setModals] = useState(initModals);
     const [userInfo, setUserInfo] = useState(initUserInfo);
     const [windowDimensions, setWindowDimensions] = useState({height: window.innerHeight, width: window.innerWidth});
     
@@ -143,13 +145,16 @@ const AppContextProvider = props => {
         s.on('branchOrder', (treeId, branchOrder, focus, sender) => {
             dbUtil.eventDebug('socketReceive', {r: 'branchOrder'});
             
-           let dbMessage = {
-               p: 'appContextProvider.js on branchOrder',
-                treeId,
-                branchOrder
-           }
-            dbUtil.eventDebug('insertSibling', dbMessage);
-            dbUtil.eventDebug('subscribeToTree', dbMessage);
+            dbUtil.eventDebug('insertSibling', {
+                 p: 'appContextProvider.js on branchOrder',
+                 treeId,
+                 branchOrder
+            });
+            dbUtil.eventDebug('subscribeToTree', {
+                p: 'appContextProvider.js on branchOrder',
+                 treeId,
+                 branchOrder
+            });
             
             let newBranches = [];
             let oldBranches = [...branchesRef.current];
@@ -163,16 +168,22 @@ const AppContextProvider = props => {
                 exists ? newBranches[i].name = exists.name : newBranches[i].name = '';
             })
 
-            dbMessage = {
+            dbUtil.eventDebug('insertSibling', {
                 p: 'appContextProvider.js on branchOrder',
                 oldBranches,
                 newBranches,
                 focus,
                 sender,
                 myId: s.id
-            }
-            dbUtil.eventDebug('insertSibling', dbMessage);
-            dbUtil.eventDebug('subscribeToTree', dbMessage);
+            });
+            dbUtil.eventDebug('subscribeToTree', {
+                p: 'appContextProvider.js on branchOrder',
+                oldBranches,
+                newBranches,
+                focus,
+                sender,
+                myId: s.id
+            });
 
             setBranches(newBranches);
             if (sender === s.id) {
@@ -188,7 +199,7 @@ const AppContextProvider = props => {
         s.on('setBranchName', (branchId, branchName, senderId) => {
             dbUtil.eventDebug('socketReceive', {r: 'setBranchName'});
             
-            let dbMessage = {
+            dbUtil.eventDebug('branchNameChange', {
                 p: fn + 'setBranchName',
                 branchId,
                 branchName,
@@ -196,8 +207,7 @@ const AppContextProvider = props => {
                 myId: s.id,
                 branchesRef: branchesRef.current,
                 typeBranchesRef: typeof branchesRef.current
-            }
-            dbUtil.eventDebug('branchNameChange', dbMessage);
+            });
             
             if (senderId === s.id) return;
 
@@ -218,14 +228,13 @@ const AppContextProvider = props => {
             
             let curBranch = curBranches.find(branch => branch.id === branchId);
             
-            let dbMessage = {
+            dbUtil.eventDebug('subscribeToTree', {
                 p: "AppContextProvider.js on getInitialBranchName",
                 branchId,
                 branchName,
                 curBranches,
                 curBranch
-            }
-            dbUtil.eventDebug('subscribeToTree', dbMessage);
+            });
             
             if (curBranch.name === branchName) return;
             curBranch.name = branchName;
@@ -233,9 +242,23 @@ const AppContextProvider = props => {
             setBranches(curBranches);
         
         }) 
-    }
 
-    useEffect(() => displayBranches(), [branches]);
+        s.on("getAllModules", data => {
+            dbUtil.eventDebug('getAllModules', {
+                p: fn + 'on getAllModules',
+                data
+            });
+
+            const newModules = data.map(m => {
+                return ({
+                    name: m.module_name,
+                    icon: m.icon
+                })
+            })
+
+            setModules(newModules);
+        })
+    }
 
     initContext();
 
@@ -248,6 +271,8 @@ const AppContextProvider = props => {
                 desktopSections,
                 menuPage,
                 modals,
+                module,
+                modules,
                 toast,
                 tree,
                 trees,
@@ -261,6 +286,8 @@ const AppContextProvider = props => {
                 setDesktopSections,
                 setMenuPage,
                 setModals,
+                setModule,
+                setModules,
                 setToast,
                 setTrees,
                 setUserInfo,

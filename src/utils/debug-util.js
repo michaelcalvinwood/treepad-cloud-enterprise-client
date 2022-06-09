@@ -1,5 +1,5 @@
 let eventList = [
-    'socketReceive'
+    'showSelectedBranch'
 ];
 
 export const eventDebug = (dEvent, message) => {

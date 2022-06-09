@@ -72,7 +72,7 @@ const Branch = props => {
 
     const handleBlur = branchId => {
         console.log(`handleBlur ${branchId}: ${appCtx.branch}`);
-        if (appCtx.branch.id === branchId) appCtx.setBranch(null);
+        
     }
 
     const handleKeyUp = (e, branchId) => {

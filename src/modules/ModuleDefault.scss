@@ -1,0 +1,41 @@
+@import '../styles/partials/variables.scss';
+
+.module-default {
+   
+    &__title {
+        text-align: center;
+    }
+
+    &__list {
+        padding: 1rem;
+        box-sizing: border-box;
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
+
+    &__button {
+        width: 30%;
+        max-width: 15rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: .25rem;
+        border: 2px solid $app-primary-color;
+        margin-bottom: 1rem;
+        border-radius: 4px;
+        cursor: pointer;
+        box-shadow: $box-shadow;
+
+        &:hover {
+            background-color: $app-tertiary-color;
+        }
+    }
+
+    &__icon {
+        height: 2rem;
+        width: 2rem;
+        filter: $primary-color-filter;
+        margin-right: .25rem;
+    }
+}

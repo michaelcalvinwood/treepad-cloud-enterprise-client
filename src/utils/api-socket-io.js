@@ -62,14 +62,22 @@ export const getBranchName = (id, ctx) => {
 }
 
 export const getInitialBranchName = (id, ctx) => {
-    let dbMessage = {
+    const { tree } = ctx;
+    const { resourceSocket: socket, token} = ctx.userInfo;
+    
+    dbUtil.eventDebug('subscribeToTree', {
         p: 'api-socket-io.js getInitialBranchName',
         id,
         ctx
-    }
-    dbUtil.eventDebug('subscribeToTree', dbMessage);
+    });
 
     if (!id) return;
 
-    ctx.userInfo.resourceSocket.emit('getInitialBranchName', id, ctx.tree.id, null, ctx.userInfo.token)
+    socket.emit('getInitialBranchName', id, tree.id, null, token)
+}
+
+export const getAllModules = (ctx) => {
+    const { resourceSocket: socket, token} = ctx.userInfo;
+
+    socket.emit('getAllModules');
 }
