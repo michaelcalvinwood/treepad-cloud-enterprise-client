@@ -92,12 +92,12 @@ const Branch = props => {
                 branchUtil.insertParent(branchId, branch, setBranches, branches, setBranches);
                 break;
             case 'arrowup':
-                if (!shiftKey) branchUtil.moveFocusUp(branchId, branch, setBranches, branches, setBranches);
+                if (!shiftKey) branchUtil.moveFocusUp(branchId, appCtx);
                 else branchUtil.moveBranchUp(branchId, branch, setBranches, branches, setBranches);
                 break;
             case 'arrowdown':
-                if (!shiftKey) branchUtil.moveFocusDown(branchId, branch, setBranches, branches, setBranches);
-                else branchUtil.moveBranchDown(branchId, branch, setBranches, branches, setBranches);
+                if (!shiftKey) branchUtil.moveFocusDown(branchId, appCtx);
+                else branchUtil.moveBranchDown(branchId, appCtx);
 
             case 'arrowright':
                 if (shiftKey) branchUtil.indent(branchId, branch, setBranches, branches, setBranches);

@@ -7,25 +7,6 @@ import * as dbUtil from '../utils/debug-util';
 
 const fn = 'AppContextProvider.js ';
 
-// interface ServerToClientEvents {
-//     noArg: () => void;
-//     basicEmit: (a: number, b: string, c: Buffer) => void;
-//     withAck: (d: string, callback: (e: number) => void) => void;
-//   }
-  
-//   interface ClientToServerEvents {
-//     hello: () => void;
-//   }
-  
-//   interface InterServerEvents {
-//     ping: () => void;
-//   }
-  
-//   interface SocketData {
-//     name: string;
-//     age: number;
-//   }
-
 let staticVal = false;
 
 const AppContextProvider = props => {
@@ -82,24 +63,6 @@ const AppContextProvider = props => {
             return {...prev};
         })
       };
-
-    //   const captureKeys = (e: any) => {
-        
-    //     if (!branchRef.current) return;
-
-    //     const {key, altKey, ctrlKey, shiftKey, code} = e;
-        
-    //     console.log(key);
-    
-    //     switch(key) {
-    //       case 'Enter':
-    //         if (activeSection === 'branches') {
-    //           branchUtil.addSibling(tree, branches, setBranches, userInfo.resourceSocket);
-    //         }
-    //         break;
-    //     }
-    
-    //   }
 
     const displayBranches = () => console.log('display branches', branches, 'branch', branch, 'desktopSections', desktopSections);
 
@@ -166,15 +129,20 @@ const AppContextProvider = props => {
     const setResourceSocketEventHandlers = (s) => {
       
         s.on('debugEvent', (dEvent, message) => {
+            dbUtil.eventDebug('socketReceive', {r: 'debugEvent'});
+
             console.log(`${dEvent}:Server: ${JSON.stringify(message, null, 4)}`)
         });
 
         s.on('toastMessage', (message) => {
-        
+            dbUtil.eventDebug('socketReceive', {r: 'toastMessage'});
+            
             setToast(message)}
         );
     
         s.on('branchOrder', (treeId, branchOrder, focus, sender) => {
+            dbUtil.eventDebug('socketReceive', {r: 'branchOrder'});
+            
            let dbMessage = {
                p: 'appContextProvider.js on branchOrder',
                 treeId,
@@ -217,17 +185,9 @@ const AppContextProvider = props => {
             
         });
     
-        s.on('branchNames', branchList => {
-            // if (!branchList || !branchList.length) return;
-            // let curBranches = branches;
-            // branchList.forEach(branch => {
-            //     const curBranch = curBranches.find(b => b.branchId === branch.branchId);
-            //     if (curBranch) curBranch.branchName = branch.branchName;
-            // })
-            // setBranches(curBranches);
-        });
-    
         s.on('setBranchName', (branchId, branchName, senderId) => {
+            dbUtil.eventDebug('socketReceive', {r: 'setBranchName'});
+            
             let dbMessage = {
                 p: fn + 'setBranchName',
                 branchId,
@@ -252,7 +212,8 @@ const AppContextProvider = props => {
         }) 
 
         s.on('getInitialBranchName', (branchId, branchName, senderId) => {
-           
+            dbUtil.eventDebug('socketReceive', {r: 'getInitialBranchName'});
+            
             let curBranches = branchesRef.current;
             
             let curBranch = curBranches.find(branch => branch.id === branchId);

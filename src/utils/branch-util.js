@@ -2,6 +2,8 @@ import * as socketIo from './api-socket-io';
 import { v4 as uuidv4 } from 'uuid';
 import * as dbUtil from './debug-util';
 
+const fn = 'branch-util.js ';
+
 const getBranchFromBranchId = (branchId, branches) => {
     return branches.find(branch => branch.id === branchId);
 }
@@ -21,12 +23,11 @@ const getIndexFromId = (branchId, branches, DbEvent) => {
     for (let i = 0; i < branches.length; ++i) {
         if (branches[i].id === branchId) return i;
     }
-    const dbMessage = {
+
+    dbUtil.eventDebug(DbEvent, {
         p: 'branch-util.js getIndexFromId',
         i: `invalid branchId: ${branchId}`
-    }
-
-    dbUtil.eventDebug(DbEvent, dbMessage);
+    });
 
     return false;
 }
@@ -117,16 +118,38 @@ export const insertParent = (branchId, branch, setBranch, branches, setBranches)
     console.log('insertParent');
 }
 
-export const moveFocusUp = (branchId, branch, setBranch, branches, setBranches) => {
-    console.log('moveFocusUp');
+export const moveFocusUp = (branchId, appCtx) => {
+    const { branches, setBranch } = appCtx;
+    let index = getIndexFromId(branchId, branches, 'moveFocusUp');
+    if (index === 0) return;
+
+    --index;
+    setBranch(branches[index]);
+
 }
 
 export const moveBranchUp = (branchId, branch, setBranch, branches, setBranches) => {
-    console.log('moveBranchUp');
+  
+
 }
 
-export const moveFocusDown = (branchId, branch, setBranch, branches, setBranches) => {
-    console.log('moveFocusDown');
+export const moveFocusDown = (branchId, appCtx) => {
+    dbUtil.eventDebug('moveFocusDown', {
+        p: fn + 'moveFocusDown',
+        appCtx
+    })
+    const { branches, setBranch } = appCtx;
+    let index = getIndexFromId(branchId, branches, 'moveFocusUp');
+    let dbMessage = {
+        p: fn + 'moveFocusDown',
+        branches, setBranch, index
+    }
+    dbUtil.eventDebug('moveFocusDown', dbMessage);
+
+    if (index >= (branches.length - 1)) return;
+
+    ++index;
+    setBranch(branches[index]);
 }
 
 export const moveBranchDown = (branchId, branch, setBranch, branches, setBranches) => {
