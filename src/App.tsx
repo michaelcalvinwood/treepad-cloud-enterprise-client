@@ -47,18 +47,18 @@ const App: React.FC = () => {
   const appCtx = useContext(AppContext);
 
   const captureKeys = (e: any) => {
-    const {key, altKey, ctrlKey, shiftKey, code} = e;
-    const {tree, activeSection, setToast, branches, setBranches, userInfo} = appCtx;
+    // const {key, altKey, ctrlKey, shiftKey, code} = e;
+    // const {tree, activeSection, setToast, branches, setBranches, userInfo} = appCtx;
     
-    console.log(key);
+    // console.log(key);
 
-    switch(key) {
-      case 'Enter':
-        if (activeSection === 'branches') {
-          branchUtil.addSibling(tree, branches, setBranches, userInfo.resourceSocket);
-        }
-        break;
-    }
+    // switch(key) {
+    //   case 'Enter':
+    //     if (activeSection === 'branches') {
+    //       branchUtil.addSibling(tree, branches, setBranches, userInfo.resourceSocket);
+    //     }
+    //     break;
+    // }
 
   }
   

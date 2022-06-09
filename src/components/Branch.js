@@ -2,47 +2,143 @@ import './Branch.scss';
 import React, { useContext, useEffect, useRef } from 'react';
 import * as socketIo from '../utils/api-socket-io';
 import AppContext from '../data/AppContext';
+import { isDOMComponent } from 'react-dom/test-utils';
+import { copy } from 'ionicons/icons';
 import * as branchUtil from '../utils/branch-util';
+import * as dbUtil from '../utils/debug-util';
+
 
 const Branch = props => {
-    const {id, name, focused} = props;
+    const { curBranch } = props;
+    const {id, name, level} = curBranch;
     const appCtx = useContext(AppContext);
     const inputRef = useRef();
 
-    console.log('Branch', props);
+    const { branch, branches, setBranches } = appCtx;
+
+    const isFocused = () => {
+        if (!appCtx.branch) return false;
+
+        if (appCtx.branch !== curBranch) return false;
+
+        if (appCtx.activeSection !== 'branches') return false;
+
+        return true;
+    }
+
+    const focused = isFocused();
+
+    dbUtil.eventDebug('renderBranch', 
+        {p: 'Branch.js', curBranch, id, name, level, focused});
+
+    dbUtil.eventDebug('insertChild', 
+        {p: 'Branch.js', curBranch, id, name, level, focused});
 
     const handleBranchNameChange = e => {
-        console.log('handleBranchNameChange');
-        
+        const branchName = e.target.value;
+        const branchId = id;
+
         const info = {
-            socket: appCtx.resourceSocket,
-            branchId: id,
-            branchName: e.target.value,
-            treeId: appCtx.tree.treeId,
+            socket: appCtx.userInfo.resourceSocket,
+            branchId,
+            branchName,
+            treeId: appCtx.tree.id,
             ancestors: [],
-            token: appCtx.token
+            token: appCtx.userInfo.token
         }
-        branchUtil.setBranchName(id, e.target.value || '', appCtx.setBranches);
+
+        const dbMessage = {
+            p: 'Branch.js handleBranchNameChange',
+            info: info,
+        }
+
+        dbUtil.eventDebug('branchNameChange', dbMessage);
+
+        appCtx.changeBranchName(branchId, branchName);
+
         socketIo.setBranchName(info);
+
     }
 
     const setFocus = branchId => {
-        appCtx.setBranch(branchId);
-        if (appCtx.activeSection !== 'branches') 
-            appCtx.setActiveSection('branches');
+        let focusBranch = appCtx.branches.find(branch => branch.id === branchId);
+        if (focusBranch) { 
+            appCtx.setBranch(focusBranch);
+                
+            if (appCtx.activeSection !== 'branches') 
+                appCtx.setActiveSection('branches');
+        }
+    }
+
+    const handleBlur = branchId => {
+        console.log(`handleBlur ${branchId}: ${appCtx.branch}`);
+        if (appCtx.branch.id === branchId) appCtx.setBranch(null);
+    }
+
+    const handleKeyUp = (e, branchId) => {
+        const { altKey, code, ctrlKey, key, keyCode, shiftKey } = e;
+
+        console.log('keyUp', key);
+
+        switch (key.toLowerCase()) {
+            case 'enter':
+                if (!altKey && !ctrlKey && !shiftKey)
+                    branchUtil.insertSibling(branchId, appCtx);
+
+                if (shiftKey && !ctrlKey)
+                    branchUtil.insertChild(branchId, appCtx);
+
+                if (ctrlKey && !shiftKey)
+                branchUtil.insertParent(branchId, branch, setBranches, branches, setBranches);
+                break;
+            case 'arrowup':
+                if (!shiftKey) branchUtil.moveFocusUp(branchId, branch, setBranches, branches, setBranches);
+                else branchUtil.moveBranchUp(branchId, branch, setBranches, branches, setBranches);
+                break;
+            case 'arrowdown':
+                if (!shiftKey) branchUtil.moveFocusDown(branchId, branch, setBranches, branches, setBranches);
+                else branchUtil.moveBranchDown(branchId, branch, setBranches, branches, setBranches);
+
+            case 'arrowright':
+                if (shiftKey) branchUtil.indent(branchId, branch, setBranches, branches, setBranches);
+                break;
+            case 'arrowleft':
+                if (shiftKey) branchUtil.outdent(branchId, branch, setBranches, branches, setBranches);
+                break;
+            case 'c':
+                if (ctrlKey) branchUtil.copy(branchId, branch, setBranches, branches, setBranches);
+                break;
+            case 'p':
+                if (ctrlKey) branchUtil.paste(branchId, branch, setBranches, branches, setBranches);
+                break;
+            case 'backspace':
+                if (shiftKey) branchUtil.deleteBranch(branchId, appCtx);
+
+        }
     }
 
     useEffect(() => {
         if (focused) inputRef.current.focus();
     })
 
+    const inputClassName = () => {
+        let className = 'branch__input';
+        className += ` branch__input--level-${curBranch.level}`;
+        if (focused) className += ' branch__input--focused';
+        return className;
+    }
+
     return (
-        <div className="branch" key={id+name}>
+        <div 
+            className={focused ? "branch branch--focused" : 'branch'} 
+            key={id+name}>
             <input
                 ref={inputRef}
                 onChange={handleBranchNameChange}
                 onFocus={() => setFocus(id)}
-                className='branch__input' 
+                onBlur={() => handleBlur(id)}
+                onKeyUp={(e) => handleKeyUp(e, id)}
+                className={inputClassName()}
                 type='text' 
                 value={name}
                 placeholder={name ? '' : 'enter name'} />

@@ -9,7 +9,6 @@ import AppContext from '../../data/AppContext';
 
 const Desktop: React.FC = () => {
     const appCtx = useContext(AppContext);
-    console.log('Desktop', appCtx.desktopSections);
     return (
         <div className='desktop'>
             <Title />

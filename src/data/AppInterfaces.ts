@@ -43,8 +43,12 @@ export interface Branch {
     name: string | null,
     owner: number,
     level: number,
-    open: boolean,
-    nameChecked: boolean
+}
+
+export interface BranchStatus {
+    id: string,
+    nameChecked: boolean,
+    open: boolean
 }
 
 export interface Modals {

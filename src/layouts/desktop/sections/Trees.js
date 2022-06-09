@@ -39,6 +39,8 @@ const Trees = () => {
        getTrees(server, token, setTrees)
     }, []);
 
+    console.log('Trees', appCtx.trees);
+
     return (
         <>
             <IonPage className={treesClassName()}>
@@ -65,11 +67,11 @@ const Trees = () => {
                 {appCtx.trees.map(tree => {
                     return (
                         <TreeCard 
-                            key={tree.treeId}
+                            key={tree.id}
                             server={server}
                             icon={tree.icon}
-                            treeName={tree.treeName}
-                            treeId={tree.treeId}
+                            treeName={tree.name}
+                            treeId={tree.id}
                             ownerName={tree.ownerName}
                             active={tree.treeId === appCtx.curTree}
                             actions={settings}

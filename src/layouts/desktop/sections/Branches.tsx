@@ -1,17 +1,20 @@
 import './Branches.scss';
 import React, { useContext, useState, useEffect } from "react";
 import AppContext from '../../../data/AppContext';
-import { Tree } from '../../../data/AppInterfaces';
+import { BranchStatus } from '../../../data/AppInterfaces';
 import settingsIcon from '../../../assets/icons/settings.svg';
 import cloudIcon from '../../../assets/icons/cloud.svg';
 import closeIcon from '../../../assets/icons/close.svg';
 import { IonSearchbar } from '@ionic/react';
 import Branch from '../../../components/Branch';
+import * as socketIo from '../../../utils/api-socket-io';
+import * as dbUtil from '../../../utils/debug-util';
 
 let controlToggle = false;
 
 const Branches: React.FC = () => {
     const [search, setSearch] = useState<string>('');
+    const [branchStatus, setBranchStatus] = useState<BranchStatus[]>([]);
 
     const appCtx = useContext(AppContext);
 
@@ -33,6 +36,34 @@ const Branches: React.FC = () => {
         });
     }
 
+    const nameHasBeenChecked = (branchId: string) => {
+        let curBranch = branchStatus.find(branch => branch.id === branchId);
+        let status;
+        if (curBranch) {
+            status = curBranch.nameChecked;
+            if (curBranch.nameChecked === false) {
+                setBranchStatus(prev => {
+                    let changedBranch = prev.find(branch => branch.id === branchId);
+                    if (changedBranch) changedBranch.nameChecked = true;
+                    return ([...prev]);
+                })
+            }
+            return status;
+        } 
+
+        let newStatus = {
+            id: branchId,
+            nameChecked: true,
+            open: true
+        }
+
+        setBranchStatus(prev => {
+            const exists = prev.find(branch => branch.id === branchId);
+            if (!exists) prev.push(newStatus);
+            return ([...prev])
+        })
+    }
+
     useEffect(() => {
         console.log('useEffect branches', appCtx.branches);
 
@@ -40,15 +71,20 @@ const Branches: React.FC = () => {
         let nameList = [];
         let curBranches = appCtx.branches;
         curBranches.forEach((branch, i) => {
-            if (!branch.name && !branch.nameChecked) {
-                nameList.push(branch.id);
-                curBranches[i].nameChecked = true;
+            if (!branch.name && !nameHasBeenChecked(branch.id)) {
+                socketIo.getInitialBranchName(branch.id, appCtx);
             }
         })
     },
     [appCtx.branches])
 
-    console.log('Branches', appCtx.branches);
+    const dbMessage = {
+        process: 'Branches.tsx',
+        appCtx,
+        branchStatus: branchStatus
+    }
+    
+    dbUtil.eventDebug('renderBranches', dbMessage);
 
     return (
         <div className={branchesClassName()}>
@@ -85,13 +121,14 @@ const Branches: React.FC = () => {
                     appCtx.branches.map(branch => {
                         return <Branch 
                             key={branch.id+branch.name} 
-                            id={branch.id} 
-                            name={branch.name ? branch.name : ''} 
-                            focused={appCtx.branch && 
-                                appCtx.branch === branch.id &&
-                                appCtx.activeSection === 'branches' ? 
-                                true : 
-                                false}
+                            curBranch={branch}
+                            // id={branch.id} 
+                            // name={branch.name ? branch.name : ''} 
+                            // focused={appCtx.branch && 
+                            //     appCtx.branch.id === branch.id &&
+                            //     appCtx.activeSection === 'branches' ? 
+                            //     true : 
+                            //     false}
                             />
                     })
                 }

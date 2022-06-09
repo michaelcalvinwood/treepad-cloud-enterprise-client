@@ -23,7 +23,7 @@ export const initUserInfo = {
 
 const AppContext = React.createContext<{
     activeSection: string,
-    branch: string,
+    branch: appInterface.Branch | null,
     branches: appInterface.Branch[],
     desktopSections: appInterface.DesktopSections,
     menuPage: string,
@@ -34,8 +34,9 @@ const AppContext = React.createContext<{
     userInfo: appInterface.UserInfo,
     windowDimensions: appInterface.WindowDimensions,
     
+    changeBranchName: (branchId: string, branchName: string) => void,
     setActiveSection: (val: string) => void;
-    setBranch: (val: string) => void;
+    setBranch: (val: appInterface.Branch) => void;
     setBranches: (val: appInterface.Branch[]) => void;
     setDesktopSections: (cb: (val: appInterface.DesktopSections) => appInterface.DesktopSections) => void,
     setMenuPage: (val: string) => void,
@@ -45,10 +46,12 @@ const AppContext = React.createContext<{
     setUserInfo: (val: appInterface.UserInfo) => void;
     setWindowDimensions: (windowDimensions: appInterface.WindowDimensions) => void,
     subscribeToTree: (val: appInterface.Tree) => void;
+    setResourceSocketEventHandlers: (val: any) => void;
+    
     
 }>({
     activeSection: 'trees',
-    branch: '',
+    branch: null,
     branches: [],
     desktopSections: { 
         controls: false,
@@ -64,6 +67,7 @@ const AppContext = React.createContext<{
     userInfo: initUserInfo,
     windowDimensions: {height: 0, width: 0},
 
+    changeBranchName: () => {},
     setActiveSection: () => {},
     setBranch: () => {},
     setBranches: () => {},
@@ -75,6 +79,7 @@ const AppContext = React.createContext<{
     setUserInfo: () => {},
     setWindowDimensions: () => {},
     subscribeToTree: () => {},
+    setResourceSocketEventHandlers: () => {},
 });
 
 export default AppContext;

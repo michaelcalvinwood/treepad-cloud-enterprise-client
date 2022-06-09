@@ -23,8 +23,6 @@ const AddTree: React.FC = () => {
     const createTheTree = () => {
         if (!treeName) return setMessage('Please enter a tree name');
 
-        
-
         appCtx.modals.addTree.type === 'insert' ?
             createTree(server, token, icon, treeName, treeDesc || '', appCtx.setModals, setMessage, appCtx.setTrees) :
             editTree(server, token, icon, appCtx.modals.addTree.treeId, treeName, treeDesc || '', appCtx.setModals, setMessage, appCtx.setTrees);

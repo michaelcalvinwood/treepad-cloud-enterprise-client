@@ -90,9 +90,6 @@ const LoginSignUp: React.FC = () => {
             //     this.props.setUser(userId, userName);
 
             const {userName, userId, email, server, token} = res.data;
-
-
-            console.log(userName, userId, email, server, token);
             
             // Note: userId is number
             // Note: server is the name of the resource server for the current user
@@ -108,6 +105,10 @@ const LoginSignUp: React.FC = () => {
             }
 
             appCtx.setUserInfo(info);
+
+            console.log('LoginSignUp userInfo', info);
+
+            appCtx.setResourceSocketEventHandlers(info.resourceSocket);
             
             return;
 
@@ -165,8 +166,6 @@ const LoginSignUp: React.FC = () => {
             setToast('Please use a strong password');
             return;
         }
-
-        console.log('mode', mode);
 
         switch(mode) {
             case 'register':

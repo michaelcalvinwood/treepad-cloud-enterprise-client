@@ -12,6 +12,8 @@ const TreeCard = props => {
     const {treeName, treeId, ownerName, server, icon, active, actions} = props;
     const appCtx = useContext(AppContext);
 
+    console.log(`treeCard: ${treeId}`);
+
     return (
         <div className={active ? 'tree-card tree-card--active' : 'tree-card'}>
             <div 
@@ -35,7 +37,7 @@ const TreeCard = props => {
                     <img className='tree-card__down' src={downIcon} />
                     <img
                         onClick={() => appCtx.setModals(prev => {
-                            console.log('prev', prev);
+                          
                             prev.addTree.active = true;
                             prev.addTree.type = 'edit';
                             prev.addTree.treeId = treeId
