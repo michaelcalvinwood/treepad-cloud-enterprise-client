@@ -8,8 +8,9 @@ import zxcvbn from 'zxcvbn';
 import treepadIcon from '../assets/icons/treepadcloud-icon.svg';
 import AppContext from '../data/AppContext';
 
-import * as socketIo from '../utils/api-socket-io';
+import * as socketIo from '../utils/resourceServerEmit';
 import { UserInfo } from '../data/AppInterfaces';
+import monitor from '../utils/eventMonitor';
 
 // TODO: Add confirmation password to registration and only send if the two passwords match
 
@@ -23,6 +24,8 @@ const LoginSignUp: React.FC = () => {
     const userRef = useRef<HTMLIonInputElement>(null);
     const emailRef = useRef<HTMLIonInputElement>(null);
     const passRef = useRef<HTMLIonInputElement>(null);
+
+    const p = 'LoginSignUp.tsx';
 
     const handleRegister = () => {
         setMode('register');
@@ -42,7 +45,7 @@ const LoginSignUp: React.FC = () => {
 
     const registerUser = (user: string, email: string, password: string) => {
         const request = {
-            url: `${process.env.REACT_APP_BASE_URL}/authentication/register`,
+            url: `${process.env.REACT_APP_AUTHENTICATION_SERVER}/authentication/register`,
             method: 'post',
             data: {
                 user,
@@ -71,8 +74,15 @@ const LoginSignUp: React.FC = () => {
     }
 
     const loginUser = (user: string, password: string) => {
+        monitor.events(['clickLoginSubmit'], {
+            p,
+            f: 'loginUser',
+            user,
+            password
+        })
+
         const request = {
-            url: `${process.env.REACT_APP_BASE_URL}/authentication/login`,
+            url: `${process.env.REACT_APP_AUTHENTICATION_SERVER}/authentication/login`,
             method: 'post',
             data: {
                 user,
@@ -105,8 +115,6 @@ const LoginSignUp: React.FC = () => {
             }
 
             appCtx.setUserInfo(info);
-
-            console.log('LoginSignUp userInfo', info);
 
             appCtx.setResourceSocketEventHandlers(info.resourceSocket);
             

@@ -12,8 +12,6 @@ const TreeCard = props => {
     const {treeName, treeId, ownerName, server, icon, active, actions} = props;
     const appCtx = useContext(AppContext);
 
-    console.log(`treeCard: ${treeId}`);
-
     return (
         <div className={active ? 'tree-card tree-card--active' : 'tree-card'}>
             <div 

@@ -1,6 +1,6 @@
 import './Branch.scss';
 import React, { useContext, useEffect, useRef } from 'react';
-import * as socketIo from '../utils/api-socket-io';
+import * as socketIo from '../utils/resourceServerEmit';
 import AppContext from '../data/AppContext';
 import { isDOMComponent } from 'react-dom/test-utils';
 import { copy } from 'ionicons/icons';
@@ -140,7 +140,7 @@ const Branch = props => {
                 onKeyUp={(e) => handleKeyUp(e, id)}
                 className={inputClassName()}
                 type='text' 
-                value={name}
+                value={name ? name : ''}
                 placeholder={name ? '' : 'enter name'} />
         </div>
     )

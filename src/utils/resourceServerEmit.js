@@ -1,6 +1,6 @@
 import { io } from 'socket.io-client';
-import * as branchUtil from '../utils/branch-util';
-import * as dbUtil from '../utils/debug-util';
+import * as branchUtil from './branch-util';
+import * as dbUtil from './debug-util';
 
 export const getResourceSocket = server => io(server);
 
@@ -14,6 +14,12 @@ export const subscribeToResource = info => {
         info
     }
     dbUtil.eventDebug("subscribeToTree", dbMessage);
+
+    dbUtil.eventDebug('renderBranches', {
+        process: 'api-socket-io.js subscribeToResource: emit resourceSubscribe',
+        resourceId,
+        token
+    })
 
     resourceSocket.emit('resourceSubscribe', resourceId, token);
 }

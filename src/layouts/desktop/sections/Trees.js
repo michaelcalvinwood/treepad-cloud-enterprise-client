@@ -39,8 +39,6 @@ const Trees = () => {
        getTrees(server, token, setTrees)
     }, []);
 
-    console.log('Trees', appCtx.trees);
-
     return (
         <>
             <IonPage className={treesClassName()}>

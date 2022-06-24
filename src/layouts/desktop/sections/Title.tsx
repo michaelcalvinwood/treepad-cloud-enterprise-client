@@ -27,7 +27,6 @@ const Title: React.FC = () => {
         });
     }
 
-    console.log('Title', appCtx.desktopSections)
     return (
        <div className={titleClassName()}>
             <div className='title__icon-tray'>

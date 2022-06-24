@@ -1,8 +1,10 @@
 let eventList = [
-    'showSelectedBranch'
+    'showSelectedBranch',
+    'renderBranches'
 ];
 
 export const eventDebug = (dEvent, message) => {
+    return;
     const test = eventList.find(ev => ev === dEvent);
     if (!test) return;
     

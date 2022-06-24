@@ -7,8 +7,8 @@ import cloudIcon from '../../../assets/icons/cloud.svg';
 import closeIcon from '../../../assets/icons/close.svg';
 import { IonSearchbar } from '@ionic/react';
 import Branch from '../../../components/Branch';
-import * as socketIo from '../../../utils/api-socket-io';
-import * as dbUtil from '../../../utils/debug-util';
+import * as socketIo from '../../../utils/resourceServerEmit';
+import * as monitor from '../../../utils/eventMonitor';
 
 let controlToggle = false;
 
@@ -17,6 +17,8 @@ const Branches: React.FC = () => {
     const [branchStatus, setBranchStatus] = useState<BranchStatus[]>([]);
 
     const appCtx = useContext(AppContext);
+
+    const p = 'Branches.tsx Branches ';
 
     const branchesClassName = () => {
         let cname = 'branches';
@@ -65,8 +67,6 @@ const Branches: React.FC = () => {
     }
 
     useEffect(() => {
-        console.log('useEffect branches', appCtx.branches);
-
         // create a list of branches that have no name and have not already been checked before
         let nameList = [];
         let curBranches = appCtx.branches;
@@ -78,13 +78,7 @@ const Branches: React.FC = () => {
     },
     [appCtx.branches])
 
-    
-    dbUtil.eventDebug('showSelectedBranch', {
-        process: 'Branches.tsx',
-        appCtx,
-        branch: appCtx.branch,
-        branchStatus: branchStatus
-    });
+    monitor.events(['clickLoginSubmit'], {p, appCtx, branchStatus});
 
     return (
         <div className={branchesClassName()}>

@@ -1,4 +1,4 @@
-import * as socketIo from './api-socket-io';
+import * as socketIo from './resourceServerEmit';
 import { v4 as uuidv4 } from 'uuid';
 import * as dbUtil from './debug-util';
 

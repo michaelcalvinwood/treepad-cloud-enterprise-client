@@ -45,7 +45,7 @@ export interface Tree {
 
 export interface Branch {
     id: string,
-    name: string | null,
+    name: string,
     owner: number,
     level: number,
 }

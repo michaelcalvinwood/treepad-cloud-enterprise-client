@@ -6,7 +6,7 @@ import fullScreenIcon from '../../../assets/icons/full-screen.svg';
 import normalScreenIcon from '../../../assets/icons/normal-screen.svg';
 import settingsIcon from '../../../assets/icons/settings.svg';
 import cloudIcon from '../../../assets/icons/cloud.svg';
-import * as socketIo from '../../../utils/api-socket-io';
+import * as socketIo from '../../../utils/resourceServerEmit';
 import ModuleDefault from '../../../modules/ModuleDefault';
 import * as dbUtil from '../../../utils/debug-util';
 
@@ -59,6 +59,7 @@ const Leaves: React.FC = () => {
             <div 
                 className='leaves__module' >
                 {!module && <ModuleDefault />}
+                {/* IMPORTANT: Use module ID # so that module names and icons can change. Or even remove a module from service by not including its id. */}
             </div>
             
 

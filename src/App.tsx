@@ -63,8 +63,6 @@ const App: React.FC = () => {
   }
   
   useEffect(() => {
-    console.log('App useEffect'); 
-
     document.addEventListener('keyup', captureKeys);
 
     return () => {document.removeEventListener('keyup', captureKeys)};
