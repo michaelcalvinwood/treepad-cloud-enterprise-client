@@ -25,7 +25,6 @@ export const getTrees = (server, token, setTrees) => {
 
     axios(request)
     .then(res => {
-        console.log('Get trees data', res.data);
         const trees = res.data.map(tree => convertDbTreeToStateTree(tree));
         setTrees(trees)
     })

@@ -5,7 +5,7 @@ import AppContext from '../data/AppContext';
 import { isDOMComponent } from 'react-dom/test-utils';
 import { copy } from 'ionicons/icons';
 import * as branchUtil from '../utils/branch-util';
-import * as dbUtil from '../utils/debug-util';
+import * as monitor from '../utils/eventMonitor';
 
 
 const Branch = props => {
@@ -28,12 +28,6 @@ const Branch = props => {
 
     const focused = isFocused();
 
-    dbUtil.eventDebug('renderBranch', 
-        {p: 'Branch.js', curBranch, id, name, level, focused});
-
-    dbUtil.eventDebug('insertChild', 
-        {p: 'Branch.js', curBranch, id, name, level, focused});
-
     const handleBranchNameChange = e => {
         const branchName = e.target.value;
         const branchId = id;
@@ -52,8 +46,6 @@ const Branch = props => {
             info: info,
         }
 
-        dbUtil.eventDebug('branchNameChange', dbMessage);
-
         appCtx.changeBranchName(branchId, branchName);
 
         socketIo.setBranchName(info);
@@ -71,8 +63,7 @@ const Branch = props => {
     }
 
     const handleBlur = branchId => {
-        console.log(`handleBlur ${branchId}: ${appCtx.branch}`);
-        
+        monitor.events(['blurBranch'], {branchId, appCtx});
     }
 
     const handleKeyUp = (e, branchId) => {

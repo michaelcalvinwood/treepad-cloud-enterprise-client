@@ -3,18 +3,25 @@ import React, { useContext } from "react";
 import AppContext from '../data/AppContext';
 import App from '../App';
 import { IonButton, IonIcon } from '@ionic/react'; 
-import * as dbUtil from '../utils/debug-util';
+import * as monitor from '../utils/eventMonitor';
 
 const ModuleDefault = () => {
     const appCtx = useContext(AppContext);
     const { modules } = appCtx;
+    const { server } = appCtx.userInfo;
 
     const fn = 'ModuleDefault.js ';
 
-    dbUtil.eventDebug('getAllModules', {
-        p: fn,
-        icon: appCtx.userInfo.server+'/svg/quill.svg'
-    })
+    monitor.events(['displayModules'], {p: 'ModuleDefault.js', modules, server});
+
+    const sortedModules = modules.sort((a, b) => {
+        if (a.name > b.name) return 1;
+        if (a.name < b.name) return -1;
+        return 0;
+    });
+
+    monitor.events(['displayModules'], {p: 'ModuleDefault.js', sortedModules, server});
+
 
     return (
         <div className='module-default'>
@@ -26,7 +33,7 @@ const ModuleDefault = () => {
                 className='module-default__list'>
                 {
                     modules && modules
-                    .sort()
+                    .sort((a, b) => a.name - b.name)
                     .map(m => {
                         return (
                             <div
@@ -36,7 +43,7 @@ const ModuleDefault = () => {
                                 fill='outline'>
                                 <img 
                                     className='module-default__icon'
-                                    src={appCtx.userInfo.server+'/svg/quill.svg'} />
+                                    src={server+m.icon} />
                                 {m.name}
                             </div>
                         )

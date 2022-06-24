@@ -5,22 +5,17 @@ export const resourceServiceEnventHandlers = (s, state, refs) => {
     const fn = 'resourceServiceOn.js ';
     const p = 'resourceSocketOn.js|resourceServiceEventHandlers|';
 
-    s.on('monitorEvents', (eventList, info) => {
-        
-        monitor.events(JSON.parse(eventList), JSON.parse(info));
-    });
-    s.on('debugEvent', (dEvent, message) => {
-       return;
-    });
+    s.on('monitorEvents', (eventList, info) => monitor.events(JSON.parse(eventList), JSON.parse(info)));
+
+    s.on('debugEvent', (dEvent, message) => {return;});
 
     s.on('toastMessage', (message) => {
-        dbUtil.eventDebug('socketReceive', {r: 'toastMessage'});
-        
+    
         state.setToast(message)}
     );
 
     s.on('branchOrder', (treeId, branchOrder, focus, sender) => {
-        monitor.events(['clickLoginSubmit'], {on: 'branchOrder', treeId, branchOrder, focus, sender});
+        monitor.events(['clickLoginSubmit', 'on'], {on: 'browser|branchOrder', treeId, branchOrder, focus, sender});
         
         let newBranches = [];
         let oldBranches = [...refs.branchesRef.current];
@@ -48,22 +43,12 @@ export const resourceServiceEnventHandlers = (s, state, refs) => {
     });
 
     s.on('setBranchName', (branchId, branchName, senderId) => {
-        dbUtil.eventDebug('socketReceive', {r: 'setBranchName'});
-        
-        dbUtil.eventDebug('branchNameChange', {
-            p: fn + 'setBranchName',
-            branchId,
-            branchName,
-            senderId,
-            myId: s.id,
-            branchesRef: refs.branchesRef.current,
-            typeBranchesRef: typeof refs.branchesRef.current
-        });
-        
+        monitor.events(['on'], {on: 'browser|setBranchName', branchId, branchName, senderId});
+
         if (senderId === s.id) return;
 
         let curBranches = refs.branchesRef.current;
-        console.log('curBranches', curBranches)
+        
         let curBranch = curBranches.find(branch => branch.id === branchId);
         
         if (curBranch.name === branchName) return;
@@ -73,20 +58,12 @@ export const resourceServiceEnventHandlers = (s, state, refs) => {
     }) 
 
     s.on('getInitialBranchName', (branchId, branchName, senderId) => {
-        dbUtil.eventDebug('socketReceive', {r: 'getInitialBranchName'});
-        
+        monitor.events(['on'], {on: 'browser|getInitialBranchName', branchId, branchName, senderId});
+
         let curBranches = refs.branchesRef.current;
         
         let curBranch = curBranches.find(branch => branch.id === branchId);
-        
-        dbUtil.eventDebug('subscribeToTree', {
-            p: "AppContextProvider.js on getInitialBranchName",
-            branchId,
-            branchName,
-            curBranches,
-            curBranch
-        });
-        
+            
         if (curBranch.name === branchName) return;
         curBranch.name = branchName;
 
@@ -94,10 +71,7 @@ export const resourceServiceEnventHandlers = (s, state, refs) => {
     }) 
 
     s.on("getAllModules", data => {
-        dbUtil.eventDebug('getAllModules', {
-            p: fn + 'on getAllModules',
-            data
-        });
+       monitor.events(['on'], {on: 'browser|getAllModules', data});
 
         const newModules = data.map(m => {
             return ({

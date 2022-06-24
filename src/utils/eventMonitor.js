@@ -1,6 +1,17 @@
 exports.pretty = v => console.log(JSON.stringify(v, null, 4));
 exports.j = str => JSON.stringify(str, null, 4);
-const eventList = ['clickLoginSubmit']
+
+/* Registered events:
+
+    clickLoginSubmit
+    displayModules
+    emit
+    on
+
+*/
+
+
+const eventList = ['on', 'emit', 'displayModules'];
 
 exports.events = (events, info) => {
     if (!eventList) return;

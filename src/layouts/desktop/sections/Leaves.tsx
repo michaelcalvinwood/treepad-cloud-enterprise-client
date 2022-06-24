@@ -1,5 +1,5 @@
 import './Leaves.scss';
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import AppContext from '../../../data/AppContext';
 
 import fullScreenIcon from '../../../assets/icons/full-screen.svg';
@@ -13,12 +13,18 @@ import * as dbUtil from '../../../utils/debug-util';
 
 
 const Leaves: React.FC = () => {
-    //TODO: add a timestamp and every hour check to see if there are new modules.    
+    //TODO: add a timestamp and every hour check to see if there are new modules.   
+    
+    const [isFullScreen, setIsFullScreen] = useState(false);
 
     const appCtx = useContext(AppContext);
     const { module, modules } = appCtx;
 
     const fn = 'Leaves.tsx ';
+
+    const setFullScreen = () => setIsFullScreen(true);
+
+    const setNormalScreen = () => setIsFullScreen(false);
 
     const leavesClassName = () => {
         let cname = 'leaves';
@@ -30,6 +36,8 @@ const Leaves: React.FC = () => {
         if (!appCtx.desktopSections.controls) ammend += '--no-controls';
         
         if (ammend !== ' leaves') cname += ammend;
+
+        if (isFullScreen) cname += ' leaves--full-screen';
         return cname;
     }
 
@@ -54,7 +62,16 @@ const Leaves: React.FC = () => {
                 <img
                     className='leaves__settings' 
                     src={settingsIcon} />
-               <img className='leaves__full-screen' src={fullScreenIcon} />
+               { isFullScreen ?
+                <img 
+                className='leaves__normal-screen'
+                onClick={setNormalScreen} 
+                src={normalScreenIcon} /> :
+                <img 
+                    className='leaves__full-screen'
+                    onClick={setFullScreen} 
+                    src={fullScreenIcon} />
+               }
             </div>
             <div 
                 className='leaves__module' >
