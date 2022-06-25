@@ -57,4 +57,10 @@
         width: .6rem;
         cursor: pointer;
     }
+    &__test-modal-container {
+        @extend .modal-container;
+    }
+    &__test-modal-content {
+        @extend .modal-content;
+    }
 }

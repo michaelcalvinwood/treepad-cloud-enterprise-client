@@ -7,7 +7,6 @@ import { copy } from 'ionicons/icons';
 import * as branchUtil from '../utils/branch-util';
 import * as monitor from '../utils/eventMonitor';
 
-
 const Branch = props => {
     const { curBranch } = props;
     const {id, name, level} = curBranch;

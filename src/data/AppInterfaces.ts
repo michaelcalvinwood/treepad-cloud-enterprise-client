@@ -10,8 +10,12 @@ export interface UserInfo {
 }
 
 export interface Module {
+    id: number,
     name: string,
     icon: string,
+    server: string,
+    port: number,
+    url: string
 }
 
 export interface ResourceSocket {

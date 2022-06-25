@@ -1,5 +1,6 @@
 import * as dbUtil from './debug-util';
 import * as monitor from './eventMonitor';
+import { setCurModule } from './resourceServerEmit';
 
 export const resourceServiceEnventHandlers = (s, state, refs) => {
     const fn = 'resourceServiceOn.js ';
@@ -75,12 +76,31 @@ export const resourceServiceEnventHandlers = (s, state, refs) => {
 
         const newModules = data.map(m => {
             return ({
+                id: m.module_id,
                 name: m.module_name,
-                icon: m.icon
+                icon: m.icon,
+                server: m.server,
+                port: m.port,
+                url: m.url
             })
         })
 
         state.setModules(newModules);
+    })
+
+    s.on("branchCurModule", (branchId, moduleId) => {
+        const curBranches = refs.branchesRef.current;
+        let curBranch = curBranches.find(branch => branch.id === branchId);
+        const modules = refs.modulesRef.current;
+        monitor.events(['on'], {branchId, moduleId, modules, refs});
+        const curModule = modules.find(module => module.id === moduleId);
+
+        monitor.events(['on'], {branchId, moduleId, curBranches, curBranch, modules, curModule, state});
+
+        const {setBranch, setModule} = state;
+        
+        setBranch(curBranch);
+        setModule(curModule);
     })
 }
 

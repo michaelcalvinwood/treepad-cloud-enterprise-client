@@ -9,6 +9,7 @@ import cloudIcon from '../../../assets/icons/cloud.svg';
 import * as socketIo from '../../../utils/resourceServerEmit';
 import ModuleDefault from '../../../modules/ModuleDefault';
 import * as dbUtil from '../../../utils/debug-util';
+import ModuleQuill from '../../../modules/ModuleQuill';
 
 
 
@@ -59,9 +60,9 @@ const Leaves: React.FC = () => {
                 <img 
                     className='leaves__cloud' 
                     src={cloudIcon} />
-                <img
+                {/* <img
                     className='leaves__settings' 
-                    src={settingsIcon} />
+                    src={settingsIcon} /> */}
                { isFullScreen ?
                 <img 
                 className='leaves__normal-screen'
@@ -75,7 +76,10 @@ const Leaves: React.FC = () => {
             </div>
             <div 
                 className='leaves__module' >
+                { }
                 {!module && <ModuleDefault />}
+                {module && module.id === 1 && <ModuleQuill />}
+
                 {/* IMPORTANT: Use module ID # so that module names and icons can change. Or even remove a module from service by not including its id. */}
             </div>
             

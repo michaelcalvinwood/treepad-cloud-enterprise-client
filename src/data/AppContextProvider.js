@@ -24,13 +24,17 @@ const AppContextProvider = props => {
     const [menuPage, setMenuPage] = useState('trees');
     const [modals, setModals] = useState(initModals);
     const [module, setModule] = useState(null);
-    const [modules, setModules] = useState([]);
+    const [modules, _setModules] = useState([]);
     const [trees, setTrees] = useState([]);
     const [tree, setTree] = useState(null);
     const [toast, setToast] = useState('');
     const [userInfo, setUserInfo] = useState(initUserInfo);
     const [windowDimensions, setWindowDimensions] = useState({height: window.innerHeight, width: window.innerWidth});
     
+    const branchRef = React.useRef(branch);
+    const branchesRef = React.useRef(branches);
+    const modulesRef = React.useRef(modules);
+
     const setBranches = data => {
         dbUtil.eventDebug('subscribeToTree', {
             p: fn + 'setBranches',
@@ -45,9 +49,15 @@ const AppContextProvider = props => {
         branchRef.current = str;
         _setBranch(str);
     }
+
+    const setModules = val => {
+        modulesRef.current = val;
+        _setModules(val);
+    }
     
-    const branchRef = React.useRef(branch);
-    const branchesRef = React.useRef(branches);
+    const getModules = () => {
+        return modules;
+    }
 
     const state = {
         activeSection,
@@ -78,7 +88,8 @@ const AppContextProvider = props => {
 
     const refs = {
         branchRef,
-        branchesRef
+        branchesRef,
+        modulesRef
     }
 
     const fn = "AppContextProvider.js ";

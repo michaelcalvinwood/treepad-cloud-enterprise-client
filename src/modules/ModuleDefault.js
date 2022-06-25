@@ -4,6 +4,7 @@ import AppContext from '../data/AppContext';
 import App from '../App';
 import { IonButton, IonIcon } from '@ionic/react'; 
 import * as monitor from '../utils/eventMonitor';
+import * as resourceServer from '../utils/resourceServerEmit';
 
 const ModuleDefault = () => {
     const appCtx = useContext(AppContext);
@@ -14,14 +15,16 @@ const ModuleDefault = () => {
 
     monitor.events(['displayModules'], {p: 'ModuleDefault.js', modules, server});
 
-    const sortedModules = modules.sort((a, b) => {
+    modules.sort((a, b) => {
         if (a.name > b.name) return 1;
         if (a.name < b.name) return -1;
         return 0;
     });
 
-    monitor.events(['displayModules'], {p: 'ModuleDefault.js', sortedModules, server});
-
+   const selectedModule = id => {
+        const selectedModule = modules.find(m => m.id === id);
+        if (selectedModule) resourceServer.setCurModule(id, appCtx);
+   }
 
     return (
         <div className='module-default'>
@@ -33,11 +36,12 @@ const ModuleDefault = () => {
                 className='module-default__list'>
                 {
                     modules && modules
-                    .sort((a, b) => a.name - b.name)
                     .map(m => {
                         return (
                             <div
                                 key={m.name}
+                                onClick={()=>{selectedModule(m.id)}}
+                                draggable='true'
                                 className='module-default__button'
                                 color="primary"
                                 fill='outline'>

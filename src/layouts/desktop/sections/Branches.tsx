@@ -9,6 +9,7 @@ import { IonSearchbar } from '@ionic/react';
 import Branch from '../../../components/Branch';
 import * as socketIo from '../../../utils/resourceServerEmit';
 import * as monitor from '../../../utils/eventMonitor';
+import ModalContainer from '../../../components/ModalContainer';
 
 let controlToggle = false;
 
@@ -126,7 +127,10 @@ const Branches: React.FC = () => {
                             />
                     })
                 }
+                
             </div>
+
+            
         </div>
     )
 }

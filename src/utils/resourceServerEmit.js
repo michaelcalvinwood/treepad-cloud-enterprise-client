@@ -82,3 +82,13 @@ export const getAllModules = (ctx) => {
 
     socket.emit('getAllModules');
 }
+
+export const setCurModule = (moduleId, ctx) => {
+    const { branch } = ctx;
+    const branchId = branch.id;
+    const socket = ctx.userInfo.resourceSocket;
+
+    monitor.events(['emit'], {emit: 'browser|setCurModule', branchId, moduleId});
+
+    socket.emit('branchCurModule', branchId, moduleId);
+}
