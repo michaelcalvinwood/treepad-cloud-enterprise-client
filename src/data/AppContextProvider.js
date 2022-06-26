@@ -12,8 +12,8 @@ let staticVal = false;
 
 const AppContextProvider = props => {
     const [activeSection, setActiveSection] = useState('trees');
-    const [branch, _setBranch] = useState(null);
     const [branches, _setBranches] = useState([]);
+    const [curBranchId, _setCurBranchId] = useState('');
     
     const [desktopSections, setDesktopSections] = useState({
         controls: false,
@@ -31,8 +31,8 @@ const AppContextProvider = props => {
     const [userInfo, setUserInfo] = useState(initUserInfo);
     const [windowDimensions, setWindowDimensions] = useState({height: window.innerHeight, width: window.innerWidth});
     
-    const branchRef = React.useRef(branch);
     const branchesRef = React.useRef(branches);
+    const curBranchIdRef = React.useRef(curBranchId);
     const modulesRef = React.useRef(modules);
 
     const setBranches = data => {
@@ -45,9 +45,9 @@ const AppContextProvider = props => {
         _setBranches(prev => [...data]);
     }
 
-    const setBranch = str => {
-        branchRef.current = str;
-        _setBranch(str);
+    const setCurBranchId = str => {
+        curBranchIdRef.current = str;
+        _setCurBranchId(str);
     }
 
     const setModules = val => {
@@ -62,10 +62,10 @@ const AppContextProvider = props => {
     const state = {
         activeSection,
         setActiveSection,
-        branch,
-        setBranch,
         branches,
         setBranches,
+        curBranchId,
+        setCurBranchId,
         desktopSections,
         setDesktopSections,
         menuPage,
@@ -87,7 +87,7 @@ const AppContextProvider = props => {
     }
 
     const refs = {
-        branchRef,
+        curBranchIdRef,
         branchesRef,
         modulesRef
     }
@@ -112,8 +112,6 @@ const AppContextProvider = props => {
         })
       };
 
-    const displayBranches = () => console.log('display branches', branches, 'branch', branch, 'desktopSections', desktopSections);
-
     const subscribeToTree = (subTree) => {
         dbUtil.eventDebug(`renderBranches`, {
             process: 'AppContextProvider.js subscribeToTree',
@@ -121,12 +119,12 @@ const AppContextProvider = props => {
         });
         
         const info = {
-            branch,
+            curBranchId,
             resourceId: subTree.id,
             userInfo,
             setToast,
             setBranches,
-            setBranch
+            setCurBranchId
         }
 
         const dbMessage = {
@@ -154,7 +152,7 @@ const AppContextProvider = props => {
             leaves: false
         })
         setTree(null);
-        setBranch(null);
+        setCurBranchId('');
         // const authorizationData = await Storage.get({key: 'authorization'});
         // const authorizationInfo = authorizationData.value && authorizationData.value.length ?
         //     JSON.parse(authorizationData.value) :
@@ -185,8 +183,8 @@ const AppContextProvider = props => {
         <AppContext.Provider
             value = {{
                 activeSection,
-                branch,
                 branches,
+                curBranchId,
                 desktopSections,
                 menuPage,
                 modals,
@@ -200,8 +198,8 @@ const AppContextProvider = props => {
                 
                 changeBranchName,
                 setActiveSection,
-                setBranch,
                 setBranches,
+                setCurBranchId,
                 setDesktopSections,
                 setMenuPage,
                 setModals,

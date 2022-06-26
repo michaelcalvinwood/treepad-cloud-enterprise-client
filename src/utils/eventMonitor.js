@@ -6,12 +6,12 @@ exports.j = str => JSON.stringify(str, null, 4);
     clickLoginSubmit
     displayModules
     emit
+    inputBranchName
     on
 
 */
 
-
-const eventList = ['on', 'emit', 'displayModules'];
+const eventList = ['on', 'emit', 'displayModules', 'inputBranchName'];
 
 exports.events = (events, info) => {
     if (!eventList) return;

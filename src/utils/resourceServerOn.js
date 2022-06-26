@@ -1,6 +1,6 @@
-import * as dbUtil from './debug-util';
+// import * as dbUtil from './debug-util';
 import * as monitor from './eventMonitor';
-import { setCurModule } from './resourceServerEmit';
+// import { setCurModule } from './resourceServerEmit';
 
 export const resourceServiceEnventHandlers = (s, state, refs) => {
     const fn = 'resourceServiceOn.js ';
@@ -32,13 +32,13 @@ export const resourceServiceEnventHandlers = (s, state, refs) => {
 
         const myId = s.id;
 
-        monitor.events(['clickLoginSubmit'], {p: p+'onBranchOrder', oldBranches, newBranches, focus, sender, myId});
+        monitor.events(['clickLoginSubmit'], {on: 'browser|branchOrder', oldBranches, newBranches, focus, sender, myId});
         
         state.setBranches(newBranches);
         if (sender === myId) {
-            if (!state.branch && !focus) state.setBranch(newBranches[0]);
+            if (!state.branch && !focus) state.setCurBranchId(newBranches[0].id);
             const focusBranch = newBranches.find(nb => nb.id === focus);
-            if (focusBranch) state.setBranch(focusBranch);
+            if (focusBranch) state.setCurBranchId(focusBranch.id);
         }
         
     });
@@ -58,16 +58,17 @@ export const resourceServiceEnventHandlers = (s, state, refs) => {
         state.setBranches(curBranches);
     }) 
 
-    s.on('getInitialBranchName', (branchId, branchName, senderId) => {
-        monitor.events(['on'], {on: 'browser|getInitialBranchName', branchId, branchName, senderId});
+    s.on('getBranchInfo', (branchId, branchName, modules, defaultModule) => {
+        monitor.events(['on'], {on: 'browser|getBranchInfo', branchId, branchName, modules, defaultModule});
 
         let curBranches = refs.branchesRef.current;
         
         let curBranch = curBranches.find(branch => branch.id === branchId);
-            
-        if (curBranch.name === branchName) return;
-        curBranch.name = branchName;
+        if (!curBranch) return;
 
+        curBranch.name = branchName;
+        curBranch.modules = modules;
+        curBranch.defaultModule = defaultModule; 
         state.setBranches(curBranches);
     }) 
 

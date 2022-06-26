@@ -23,8 +23,8 @@ export const initUserInfo = {
 
 const AppContext = React.createContext<{
     activeSection: string,
-    branch: appInterface.Branch | null,
     branches: appInterface.Branch[],
+    curBranchId: string | null,
     desktopSections: appInterface.DesktopSections,
     menuPage: string,
     modals: appInterface.Modals,
@@ -38,8 +38,8 @@ const AppContext = React.createContext<{
     
     changeBranchName: (branchId: string, branchName: string) => void,
     setActiveSection: (val: string) => void;
-    setBranch: (val: appInterface.Branch) => void;
     setBranches: (val: appInterface.Branch[]) => void;
+    setCurBranchId: (val: string | null) => void;
     setDesktopSections: (cb: (val: appInterface.DesktopSections) => appInterface.DesktopSections) => void,
     setMenuPage: (val: string) => void,
     setModals: (cb: (val: appInterface.Modals) => appInterface.Modals) => void;
@@ -53,8 +53,8 @@ const AppContext = React.createContext<{
     setResourceSocketEventHandlers: (val: any) => void;
 }>({
     activeSection: 'trees',
-    branch: null,
     branches: [],
+    curBranchId: '',
     desktopSections: { 
         controls: false,
         trees: true,
@@ -73,8 +73,8 @@ const AppContext = React.createContext<{
 
     changeBranchName: () => {},
     setActiveSection: () => {},
-    setBranch: () => {},
     setBranches: () => {},
+    setCurBranchId: () => {},
     setDesktopSections: () => {},
     setMenuPage: () => {},
     setModals: () => {},

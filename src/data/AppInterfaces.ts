@@ -9,14 +9,6 @@ export interface UserInfo {
     token: any
 }
 
-export interface Module {
-    id: number,
-    name: string,
-    icon: string,
-    server: string,
-    port: number,
-    url: string
-}
 
 export interface ResourceSocket {
     owner: number,
@@ -47,11 +39,24 @@ export interface Tree {
     type: string
 }
 
+
+export interface Module {
+    id: number,
+    name: string,
+    icon: string,
+    server: string,
+    port: number,
+    url: string,
+    isDefault: boolean
+}
+
 export interface Branch {
     id: string,
     name: string,
     owner: number,
     level: number,
+    modules: number[],
+    defaultModule: number;
 }
 
 export interface BranchStatus {

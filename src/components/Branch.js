@@ -2,8 +2,6 @@ import './Branch.scss';
 import React, { useContext, useEffect, useRef } from 'react';
 import * as socketIo from '../utils/resourceServerEmit';
 import AppContext from '../data/AppContext';
-import { isDOMComponent } from 'react-dom/test-utils';
-import { copy } from 'ionicons/icons';
 import * as branchUtil from '../utils/branch-util';
 import * as monitor from '../utils/eventMonitor';
 
@@ -13,19 +11,27 @@ const Branch = props => {
     const appCtx = useContext(AppContext);
     const inputRef = useRef();
 
-    const { branch, branches, setBranches } = appCtx;
+    const { curBranchId, branches, setBranches } = appCtx;
+
+    const p = 'Branch.js '
 
     const isFocused = () => {
-        if (!appCtx.branch) return false;
+        const { curBranchId, activeSection } = appCtx;
 
-        if (appCtx.branch !== curBranch) return false;
+        monitor.events(['inputBranchName'], {p: p + 'isFocused', curBranchId, activeSection, curBranch});
 
-        if (appCtx.activeSection !== 'branches') return false;
+        if (!curBranchId) return false;
+
+        if (curBranchId !== curBranch.id) return false;
+
+        if (activeSection !== 'branches') return false;
 
         return true;
     }
 
     const focused = isFocused();
+
+    monitor.events(['inputBranchName'], {p, curBranch, focused});
 
     const handleBranchNameChange = e => {
         const branchName = e.target.value;
@@ -54,7 +60,7 @@ const Branch = props => {
     const setFocus = branchId => {
         let focusBranch = appCtx.branches.find(branch => branch.id === branchId);
         if (focusBranch) { 
-            appCtx.setBranch(focusBranch);
+            appCtx.setCurBranchId(focusBranch.id);
                 
             if (appCtx.activeSection !== 'branches') 
                 appCtx.setActiveSection('branches');
@@ -79,27 +85,27 @@ const Branch = props => {
                     branchUtil.insertChild(branchId, appCtx);
 
                 if (ctrlKey && !shiftKey)
-                branchUtil.insertParent(branchId, branch, setBranches, branches, setBranches);
+                // branchUtil.insertParent(branchId, branch, setBranches, branches, setBranches);
                 break;
             case 'arrowup':
-                if (!shiftKey) branchUtil.moveFocusUp(branchId, appCtx);
-                else branchUtil.moveBranchUp(branchId, branch, setBranches, branches, setBranches);
+                // if (!shiftKey) branchUtil.moveFocusUp(branchId, appCtx);
+                // else branchUtil.moveBranchUp(branchId, branch, setBranches, branches, setBranches);
                 break;
             case 'arrowdown':
-                if (!shiftKey) branchUtil.moveFocusDown(branchId, appCtx);
-                else branchUtil.moveBranchDown(branchId, appCtx);
-
+                // if (!shiftKey) branchUtil.moveFocusDown(branchId, appCtx);
+                // else branchUtil.moveBranchDown(branchId, appCtx);
+                break;
             case 'arrowright':
-                if (shiftKey) branchUtil.indent(branchId, branch, setBranches, branches, setBranches);
+                // if (shiftKey) branchUtil.indent(branchId, branch, setBranches, branches, setBranches);
                 break;
             case 'arrowleft':
-                if (shiftKey) branchUtil.outdent(branchId, branch, setBranches, branches, setBranches);
+                // if (shiftKey) branchUtil.outdent(branchId, branch, setBranches, branches, setBranches);
                 break;
             case 'c':
-                if (ctrlKey) branchUtil.copy(branchId, branch, setBranches, branches, setBranches);
+                // if (ctrlKey) branchUtil.copy(branchId, branch, setBranches, branches, setBranches);
                 break;
             case 'p':
-                if (ctrlKey) branchUtil.paste(branchId, branch, setBranches, branches, setBranches);
+                // if (ctrlKey) branchUtil.paste(branchId, branch, setBranches, branches, setBranches);
                 break;
             case 'backspace':
                 if (shiftKey) branchUtil.deleteBranch(branchId, appCtx);

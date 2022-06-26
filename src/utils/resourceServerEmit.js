@@ -62,7 +62,7 @@ export const getBranchName = (id, ctx) => {
     socket.emit('getBranchName', id, treeId, permissions, token);
 }
 
-export const getInitialBranchName = (id, ctx) => {
+export const getBranchInfo = (id, ctx) => {
     const { tree } = ctx;
     const { resourceSocket: socket, token} = ctx.userInfo;
     
@@ -71,8 +71,8 @@ export const getInitialBranchName = (id, ctx) => {
     const treeId = tree.id;
     const permissions = null;
 
-    monitor.events(['emit'], {emit: 'browser|getInitialBranchName', id, treeId, permissions, token})
-    socket.emit('getInitialBranchName', id, treeId, permissions, token)
+    monitor.events(['emit'], {emit: 'browser|getBranchInfo', id, treeId, permissions, token})
+    socket.emit('getBranchInfo', id, treeId, permissions, token)
 }
 
 export const getAllModules = (ctx) => {

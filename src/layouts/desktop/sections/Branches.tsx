@@ -73,13 +73,13 @@ const Branches: React.FC = () => {
         let curBranches = appCtx.branches;
         curBranches.forEach((branch, i) => {
             if (!branch.name && !nameHasBeenChecked(branch.id)) {
-                socketIo.getInitialBranchName(branch.id, appCtx);
+                socketIo.getBranchInfo(branch.id, appCtx);
             }
         })
     },
     [appCtx.branches])
 
-    monitor.events(['clickLoginSubmit'], {p, appCtx, branchStatus});
+    monitor.events(['clickLoginSubmit', 'inputBranchName'], {p, appCtx, branchStatus});
 
     return (
         <div className={branchesClassName()}>
@@ -117,13 +117,6 @@ const Branches: React.FC = () => {
                         return <Branch 
                             key={branch.id+branch.name} 
                             curBranch={branch}
-                            // id={branch.id} 
-                            // name={branch.name ? branch.name : ''} 
-                            // focused={appCtx.branch && 
-                            //     appCtx.branch.id === branch.id &&
-                            //     appCtx.activeSection === 'branches' ? 
-                            //     true : 
-                            //     false}
                             />
                     })
                 }
