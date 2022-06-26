@@ -5,13 +5,14 @@ exports.j = str => JSON.stringify(str, null, 4);
 
     clickLoginSubmit
     displayModules
+    displayTrees
     emit
     inputBranchName
     on
 
 */
 
-const eventList = ['on', 'emit', 'displayModules', 'inputBranchName'];
+const eventList = ['on', 'emit', 'displayModules', 'inputBranchName', 'displayTrees'];
 
 exports.events = (events, info) => {
     if (!eventList) return;

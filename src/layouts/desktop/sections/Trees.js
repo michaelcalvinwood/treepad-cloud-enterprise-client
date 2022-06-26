@@ -12,7 +12,7 @@ import settingsIcon from '../../../assets/icons/settings.svg';
 
 import { addOutline } from 'ionicons/icons';
 import { getTrees } from '../../../utils/api-axios';
-import TreesMenu from '../../mobile/menus/TreesMenu';
+import * as monitor from '../../../utils/eventMonitor';
 
 const Trees = () => {
     const [search, setSearch] = useState('');
@@ -38,6 +38,8 @@ const Trees = () => {
     useEffect(()=>{
        getTrees(server, token, setTrees)
     }, []);
+
+    monitor.events(['displayTrees'], {p: 'Trees.js', appCtx});
 
     return (
         <>
@@ -71,7 +73,7 @@ const Trees = () => {
                             treeName={tree.name}
                             treeId={tree.id}
                             ownerName={tree.ownerName}
-                            active={tree.treeId === appCtx.curTree}
+                            active={tree.id === appCtx.curTreeId}
                             actions={settings}
                         />
                     )

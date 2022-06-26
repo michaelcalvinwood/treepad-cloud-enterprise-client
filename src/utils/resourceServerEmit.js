@@ -63,16 +63,16 @@ export const getBranchName = (id, ctx) => {
 }
 
 export const getBranchInfo = (id, ctx) => {
-    const { tree } = ctx;
+    monitor.events(['emit'], {emit: 'browser|getBranchInfo', id, ctx});
+    const { curTreeId } = ctx;
     const { resourceSocket: socket, token} = ctx.userInfo;
     
     if (!id) return;
 
-    const treeId = tree.id;
     const permissions = null;
 
-    monitor.events(['emit'], {emit: 'browser|getBranchInfo', id, treeId, permissions, token})
-    socket.emit('getBranchInfo', id, treeId, permissions, token)
+    monitor.events(['emit'], {emit: 'browser|getBranchInfo', id, curTreeId, permissions, token})
+    socket.emit('getBranchInfo', id, curTreeId, permissions, token)
 }
 
 export const getAllModules = (ctx) => {

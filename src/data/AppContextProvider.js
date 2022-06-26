@@ -26,7 +26,7 @@ const AppContextProvider = props => {
     const [module, setModule] = useState(null);
     const [modules, _setModules] = useState([]);
     const [trees, setTrees] = useState([]);
-    const [tree, setTree] = useState(null);
+    const [curTreeId, setCurTreeId] = useState('');
     const [toast, setToast] = useState('');
     const [userInfo, setUserInfo] = useState(initUserInfo);
     const [windowDimensions, setWindowDimensions] = useState({height: window.innerHeight, width: window.innerWidth});
@@ -133,7 +133,7 @@ const AppContextProvider = props => {
         }
         dbUtil.eventDebug("subscribeToTree", dbMessage);
         socketIo.subscribeToResource(info);     
-        setTree(subTree);
+        setCurTreeId(subTree.id);
         setActiveSection('branches');
     }
     
@@ -151,7 +151,7 @@ const AppContextProvider = props => {
             branches: true,
             leaves: false
         })
-        setTree(null);
+        setCurTreeId('');
         setCurBranchId('');
         // const authorizationData = await Storage.get({key: 'authorization'});
         // const authorizationInfo = authorizationData.value && authorizationData.value.length ?
@@ -162,7 +162,7 @@ const AppContextProvider = props => {
     };
 
     useEffect(() => {
-        if (trees.length && !tree) subscribeToTree(trees[0]);
+        if (trees.length && !curTreeId) subscribeToTree(trees[0]);
     },[trees]);
 
     useEffect(() => {
@@ -185,13 +185,13 @@ const AppContextProvider = props => {
                 activeSection,
                 branches,
                 curBranchId,
+                curTreeId,
                 desktopSections,
                 menuPage,
                 modals,
                 module,
                 modules,
                 toast,
-                tree,
                 trees,
                 userInfo,
                 windowDimensions,
